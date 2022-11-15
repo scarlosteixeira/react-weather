@@ -1,22 +1,7 @@
 import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { geoApiOptions, GEO_API_URL } from "../APIs";
-
-
-interface ICityData {
-  name: string
-  countryCode: string
-  latitude: number
-  longitude: number
-}
-
-interface ISearchData{
-  value: string
-  label: string
-}
-
-type InputValue = string | null
-type Search = ISearchData | null
+import { Search, InputValue, ICityData } from "../Types"; 
 
 const SearchBar = ({ onSearchChange }:any) => {
 
