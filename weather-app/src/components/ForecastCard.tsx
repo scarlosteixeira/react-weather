@@ -1,18 +1,18 @@
 import React from 'react'
 
-function ForecastCard({ day, dataset }) {
+function ForecastCard({ weekDay, dataset}: any) {
   const [tempMin, setTempMin] = React.useState<number>(0)
   const [tempMax, setTempMax] = React.useState<number>(0)
-  console.table(dataset)
+  console.log(dataset)
 
   function tempMaxMin() {
     const temps = [] as Array<number>
-    dataset.map((data: { main: { temp: number } }) => {
+    dataset?.map((data: { main: { temp: number } }) => {
       return temps.push(data.main.temp)
     })
-    console.log(temps)
+    // console.log(temps)
     temps.sort((a, b) => a - b)
-    console.log(temps)
+    // console.log(temps)
     setTempMin(Math.round(temps[0]))
     setTempMax(Math.round(temps[temps.length - 1]))
   }
@@ -22,24 +22,27 @@ function ForecastCard({ day, dataset }) {
   }, [dataset])
 
   return (
-    <li>
-      <div>
-        <span>{day},</span>
-        <span>{dataset[0].dt_txt.slice(5, 10)}</span>
+    <li className='d-flex flex-column flex-lg-row list-group-item border-secondary rounded px-1 py-0'>
+      <div className='d-flex flex-column flex-lg-row align-self-center'>
+        <p>{weekDay},</p>
+        <p>{dataset[0]?.dt_txt?.slice(5, 10)}</p>
       </div>
-      <div>
-        <span>
+      <div className='d-flex align-self-center mx-3 flex-column flex-xl-row'>
+        <div className='' >
           <img
-            src={`http://openweathermap.org/img/wn/${dataset[0].weather[0].icon}@2x.png`}
-            alt={dataset[0].weather[0].main}
-          />
-        </span>
-        <span>
-          <div>{tempMin}</div>
-          <div>{tempMax}</div>
-        </span>
+            src={`http://openweathermap.org/img/wn/${dataset[0]?.weather[0]?.icon}@2x.png`}
+            alt={dataset[0]?.weather[0]?.main}
+            />
+        </div>
+        <div className='align-self-center font-weight-bold' style={{fontSize: '0.8rem' }}>
+        <p><i className="fa-solid fa-temperature-arrow-down"></i><span>{tempMin}&deg;C</span></p>
+        <p><i className="fa-solid fa-temperature-arrow-up"></i><span>{tempMax}&deg;C</span></p>
+        </div>
       </div>
-      <div>{dataset[0].weather[0]?.description}</div>
+      <div className='align-self-center'>
+        <p>{dataset[0]?.weather[0]?.description}</p>
+      </div>
+      
     </li>
   )
 }

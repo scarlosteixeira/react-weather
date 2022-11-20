@@ -49,33 +49,34 @@ React.useEffect(()=>{
 
 
   return (
-    <section>
-      <div>
-        <span>{}</span>
-        <h2>{`${currentWeatherData?.name}, ${currentWeatherData?.sys.country}`}</h2>
+    <section className="d-flex flex-column card h-25">
+      <div className="card-body"> 
+      <div className="d-flex flex-column flex-xl-row alert alert-secondary">
+        <h2 className="align-self-center card-title">{`${currentWeatherData?.name}, ${currentWeatherData?.sys.country}`}</h2>
       </div>
-      <div>
-        <img src={currentWeatherData.weather[0].icon? `http://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`: undefined} alt={`${currentWeatherData?.weather[0].main} icon`} />
-        <span>{currentWeatherData?.main.temp.toFixed(0)}	&deg;C</span> 
-        {/* <ul>
-          <li>Max {Math.round(currentWeatherData?.main.temp_max)}&deg;C</li>
-          <li>Min {Math.round(currentWeatherData?.main.temp_min)}&deg;C</li>
-        </ul> */}
+      <div className="d-flex flex-column flex-xl-row">
+        <div className="d-flex flex-column flex-xl-row badge badge-info">
+          <img className="align-self-center " src={currentWeatherData.weather[0].icon? `http://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`: undefined} alt={`${currentWeatherData?.weather[0].main} icon`} />
+          <p className="align-self-center font-weight-bold badge badge-light" style={{fontSize: '2.2rem' }}>{currentWeatherData?.main.temp.toFixed(0)}	&deg;C</p> 
+        </div>
+        <div className="d-flex flex-column flex-sm-row font-weight-bold ">
+          <p className="align-self-xl-end text-wrap">Feels like: {Math.round(currentWeatherData?.main.feels_like).toFixed(0)}&deg;C,</p>
+          <p className="align-self-xl-end text-wrap">&nbsp;{currentWeatherData?.weather[0].description},</p>
+          <p className="align-self-xl-end text-wrap">&nbsp;{windCondition}.</p>
+        </div>
       </div>
-      <div>
-        <span>feels Like:{Math.round(currentWeatherData?.main.feels_like).toFixed(0)}&deg;C.</span><span>{currentWeatherData?.weather[0].description}.</span><span>{windCondition}.</span>
-      </div>
-      <div>
-        <ul>
-          <li><span>{`${currentWeatherData?.wind.speed.toFixed(1)}m/s`}</span> <span>{windDirection}</span></li>
-          <li>Humidity: {currentWeatherData.main.humidity}%</li>
-          <li>Visibility: {(currentWeatherData.visibility / 1000).toFixed(1)}Km</li>
-          <li>{currentWeatherData.main.pressure}hPa</li>
-          <li>Dew Point: {Math.round(currentWeatherData.main.temp - ((100 - currentWeatherData.main.humidity)/5))}&deg;C</li>
+      <div className="d-flex flex-column flex-md-row">
+        <ul className="list-inline align-self-center">
+          <li className="list-inline-item border-0 p-1 "><i className="fa-solid fa-location-arrow"></i><span>{`${currentWeatherData?.wind.speed.toFixed(1)}m/s`}</span> <span>{windDirection}</span></li>
+          <li className="list-inline-item border-0 p-1">Humidity: {currentWeatherData.main.humidity}%</li>
+          <li className="list-inline-item border-0 p-1">Visibility: {(currentWeatherData.visibility / 1000).toFixed(1)}Km</li>
+          <li className="list-inline-item border-0 p-1"><i className="fa-solid fa-gauge-high"></i><span>{currentWeatherData.main.pressure}hPa</span></li>
+          <li className="list-inline-item border-0 p-1">Dew Point: {Math.round(currentWeatherData.main.temp - ((100 - currentWeatherData.main.humidity)/5))}&deg;C</li>
           {/*dew point formula Td = T - ((100 - RH)/5.) */}
-          <li>{currentWeatherData.rain? `Rain volume: ${currentWeatherData.rain['1h']} mm/h` : undefined}</li>
-          <li>{currentWeatherData.snow? `Snow volume: ${currentWeatherData.snow['1h']} mm/h` : undefined}</li>
+          <li className={currentWeatherData.snow? `list-inline-item border-0 p-1` : `d-none`}>{currentWeatherData.snow? `Snow volume: ${currentWeatherData.snow['1h']} mm/h` : null}</li>
+          <li className={currentWeatherData.rain? `list-inline-item border-0 p-1` : `d-none`}>{currentWeatherData.rain? `Rain volume: ${currentWeatherData.rain['1h']} mm/h` : null}</li>
         </ul>
+      </div>
       </div>
 
     </section>

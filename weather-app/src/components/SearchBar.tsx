@@ -35,7 +35,7 @@ const SearchBar = ({ onSearchChange }:any) => {
   };
 
   return (
-    <AsyncPaginate
+    <AsyncPaginate className="mx-auto my-3"
       placeholder="Search for city"
       debounceTimeout={600}
       value={search}

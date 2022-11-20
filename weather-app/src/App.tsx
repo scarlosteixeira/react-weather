@@ -70,16 +70,18 @@ function App() {
     )
   }
   return (
-    <div className="App">
-      <SearchBar
+    <div className="container">
+      <SearchBar 
         onSearchChange={handleOnSearchChange}
       />
-      <CurrentWeather
+      <div className="d-flex flex-column flex-xl-row justify-content-xl-around">
+        <CurrentWeather 
         currentWeatherData = {currentWeather}
-      />
-        <ForecastWeather
-          forecastWeatherData = {forecastWeather}
         />
+        <ForecastWeather 
+          forecastWeatherData = {forecastWeather}
+          />
+      </div>
     </div>
   )
 }
