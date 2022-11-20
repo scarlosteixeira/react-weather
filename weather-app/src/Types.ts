@@ -1,6 +1,5 @@
 export interface ISearchData{
   value: string
-  label: string
 }
 
 export interface ICurrentWeather {
@@ -21,6 +20,54 @@ export interface ICurrentWeather {
   name: string,
   cod: number
 }
+
+interface IForecast {
+  "list": [
+    {
+      dt: number,
+      main: {
+        temp: number,
+        feels_like: number,
+        temp_min: number,
+        temp_max: number,
+        pressure: number,
+        humidity: number,
+      },
+      weather: [
+        {
+          id: number,
+          main:string,
+          "description": string,
+          "icon": string
+        }
+      ],
+      clouds: {
+        all: number
+      },
+      wind: {
+        speed: number,
+        deg: number,
+        gust: number
+      },
+      visibility: number,
+      pop: number,
+      rain: {
+        ['3h']: number
+      },
+      snow: {
+        ['3h']: number
+      },
+      sys: {
+        pod: string
+      },
+      dt_txt: string
+    }
+  ],
+  timezone: number,
+  sunrise: number,
+  sunset: number
+}
+
 export interface ICityData {
   name: string
   countryCode: string
@@ -32,7 +79,25 @@ export interface ISearchData{
   value: string
   label: string
 }
+interface ILocation {
+  lat: string,
+  lon: string
+}
 
+interface IWindCondition{
+  speedMin: number,
+  speedMax: number,
+  description: string
+}
+
+interface IWindDirection{
+  direction: string,
+  degree:Array<number>
+}
+export type TWindDirection = Array<IWindDirection>
+export type TWindCondition = Array<IWindCondition>
+export type TLocation = ILocation | undefined
 export type InputValue = string | null
 export type Search = ISearchData | null
-export type TCurrentWeather = ICurrentWeather | null 
+export type TCurrentWeather = ICurrentWeather | null | undefined
+export type TForecastWeather = IForecast | null | undefined
