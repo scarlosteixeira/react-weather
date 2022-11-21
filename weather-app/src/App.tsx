@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react'
 import SearchBar from './components/SearchBar'
-import './App.css'
 import CurrentWeather from './components/CurrentWeather'
-import { WEATHER_API_KEY, WEATHER_API_URL } from './APIs'
+import { weatherApiKey, weatherApiUrl } from './APIs'
 import {ISearchData, TCurrentWeather, TForecastWeather, TLocation} from './Types'
 import ForecastWeather from './components/ForecastWeather'
-
+import  "./style.css"
 
 function App() {
   const [currentWeather, setCurrentWeather] = React.useState<TCurrentWeather>(null)
@@ -22,9 +21,9 @@ function App() {
       }
   }
 
-  async function currentWeatherFetch(location: any) {
-    const response = await fetch (`${WEATHER_API_URL}/weather?lat=${location.lat}&lon=${location.lon}&appid=${WEATHER_API_KEY}&units=metric`)
-    const response2 = await fetch (`${WEATHER_API_URL}/forecast?lat=${location.lat}&lon=${location.lon}&appid=${WEATHER_API_KEY}&units=metric`)
+  async function weatherFetch(location: any) {
+    const response = await fetch (`${weatherApiUrl}/weather?lat=${location.lat}&lon=${location.lon}&appid=${weatherApiKey}&units=metric`)
+    const response2 = await fetch (`${weatherApiUrl}/forecast?lat=${location.lat}&lon=${location.lon}&appid=${weatherApiKey}&units=metric`)
     const currentWeatherData = await response.json()
     const forecastWeatherData = await response2.json()
     // console.log(currentWeatherData);
@@ -41,46 +40,63 @@ function App() {
 
   React.useEffect(()=>{
     if(location){
-    currentWeatherFetch(location)
+    weatherFetch(location)
     }
   },[location])
     
   const handleOnSearchChange = (searchData:ISearchData) => {
     const [lat, lon] = searchData.value.split(" ");
     
-    async function currentWeatherFetch() {
-      const response = await fetch (`${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`)
-      const response2 = await fetch (`${WEATHER_API_URL}/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`)
+    async function weatherFetch() {
+      const response = await fetch (`${weatherApiUrl}/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`)
+      const response2 = await fetch (`${weatherApiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`)
       const currentWeatherData = await response.json()
       const forecastWeatherData = await response2.json()
       setCurrentWeather({ ...currentWeatherData })
       setForecastWeather({ ...forecastWeatherData })
     }
-    currentWeatherFetch()
+    weatherFetch()
   }
   if(!currentWeather){
     return (
-      <div>Getting Weather...
-              <SearchBar
-        onSearchChange={handleOnSearchChange}
-      />
-        <button onClick={ getLocation}>Get Location</button>
+      <div className='container'>
+        <div className='row align-items-center justify-content-center '>
+          <div className='col-6'>
+            <SearchBar className='col-6'
+              onSearchChange={handleOnSearchChange}
+            />
+          </div>
+            <button className='btn btn-light col-2 ' onClick={ getLocation}>
+            Get Location
+            </button>
+          <div className='col-4 d-flex'>
+            <span className='font-weight-bold mb-2 align-self-center' style={{fontSize: '1.5rem' }}> Getting Weather </span>
+            <div className="spinner-border m-2" role="status">
+            <span className="sr-only" ></span>
+            </div>
+            
+          </div>
+        </div>
       </div>
       
     )
   }
   return (
-    <div className="container">
-      <SearchBar 
-        onSearchChange={handleOnSearchChange}
-      />
-      <div className="d-flex flex-column flex-xl-row justify-content-xl-around">
-        <CurrentWeather 
-        currentWeatherData = {currentWeather}
-        />
-        <ForecastWeather 
-          forecastWeatherData = {forecastWeather}
+    <div className="container m-3 rounded">
+        <SearchBar 
+          onSearchChange={handleOnSearchChange}
           />
+      <div className='row align-items-baseline m-3'>
+        <div className="col-6 d-flex flex-column flex-xl-row justify-content-xl-around ">
+          <CurrentWeather 
+          currentWeatherData = {currentWeather}
+          />
+        </div>
+        <div className='col-6'>
+          <ForecastWeather 
+            forecastWeatherData = {forecastWeather}
+            />
+        </div>
       </div>
     </div>
   )

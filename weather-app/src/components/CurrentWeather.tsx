@@ -49,20 +49,20 @@ React.useEffect(()=>{
 
 
   return (
-    <section className="d-flex flex-column card h-25">
-      <div className="card-body"> 
+    <section className="container bg-light d-flex flex-column card h-25 rounded">
+      <div className="card-body  "> 
       <div className="d-flex flex-column flex-xl-row alert alert-secondary">
         <h2 className="align-self-center card-title">{`${currentWeatherData?.name}, ${currentWeatherData?.sys.country}`}</h2>
       </div>
-      <div className="d-flex flex-column flex-xl-row">
-        <div className="d-flex flex-column flex-xl-row badge badge-info">
+      <div className="row d-flex flex-column flex-xl-row">
+        <div className="col-4 d-flex flex-column flex-lg-row ">
           <img className="align-self-center " src={currentWeatherData.weather[0].icon? `http://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`: undefined} alt={`${currentWeatherData?.weather[0].main} icon`} />
-          <p className="align-self-center font-weight-bold badge badge-light" style={{fontSize: '2.2rem' }}>{currentWeatherData?.main.temp.toFixed(0)}	&deg;C</p> 
+          <p className="align-self-start font-weight-bold badge badge-info" style={{fontSize: '2rem' }}>{currentWeatherData?.main.temp.toFixed(0)}	&deg;C</p> 
         </div>
-        <div className="d-flex flex-column flex-sm-row font-weight-bold ">
-          <p className="align-self-xl-end text-wrap">Feels like: {Math.round(currentWeatherData?.main.feels_like).toFixed(0)}&deg;C,</p>
-          <p className="align-self-xl-end text-wrap">&nbsp;{currentWeatherData?.weather[0].description},</p>
-          <p className="align-self-xl-end text-wrap">&nbsp;{windCondition}.</p>
+        <div className="row-8 d-flex flex-column flex-lg-row font-weight-bold ">
+          <p className="align-self-xl-end text-nowrap">Feels like: {Math.round(currentWeatherData?.main.feels_like).toFixed(0)}&deg;C,</p>
+          <p className="align-self-xl-end text-nowrap">&nbsp;{currentWeatherData?.weather[0].description},</p>
+          <p className="align-self-xl-end text-nowrap">&nbsp;{windCondition}.</p>
         </div>
       </div>
       <div className="d-flex flex-column flex-md-row">

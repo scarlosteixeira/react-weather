@@ -22,7 +22,7 @@ function ForecastCard({ weekDay, dataset}: any) {
   }, [dataset])
 
   return (
-    <li className='d-flex flex-column flex-lg-row list-group-item border-secondary rounded px-1 py-0'>
+    <li className='d-flex flex-column flex-lg-row list-group-item border-secondary rounded px-1 py-0 '>
       <div className='d-flex flex-column flex-lg-row align-self-center'>
         <p>{weekDay},</p>
         <p>{dataset[0]?.dt_txt?.slice(5, 10)}</p>
