@@ -6,7 +6,7 @@ React app that consumes the OpenWeather API to get the current weather for a giv
 
 This is a simple weather app that uses the aforementioned API, inbuilt JavaScript Geolocation API to automaticaly get the latitude and longitude of the users position, as far as the user allow it on browser, and GeoDB Cities API on the search bar that returns city name, country name, latitude and longitude of the searched city.
 
-## Getting Started+
+## Getting Started
 
 The project can be accessed on **[my Git Hub profile on React-weater repository.](https://github.com/scarlosteixeira/react-weather)** <br>
 This project is open source and can be downloaded, used and modified by anyone, as far as credit is given.
@@ -47,6 +47,10 @@ Your app must:
 * **Be deployed online** and accessible to the public.
 
 ## Planning
+
+I made a simple wireframe of the app, using **[wireframepro from mockflow.](https://wireframepro.mockflow.com/)**. 
+
+
 
 ## Build/Code Process
 
