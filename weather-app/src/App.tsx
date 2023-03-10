@@ -5,6 +5,9 @@ import { weatherApiKey, weatherApiUrl } from './APIs'
 import {ISearchData, TCurrentWeather, TForecastWeather, TLocation} from './Types'
 import ForecastWeather from './components/ForecastWeather'
 import  "./style.css"
+import { Container } from 'react-bootstrap'
+import Row from 'react-bootstrap/esm/Row'
+import Col from 'react-bootstrap/esm/Col'
 
 function App() {
   const [currentWeather, setCurrentWeather] = React.useState<TCurrentWeather>(null)
@@ -59,7 +62,7 @@ function App() {
   }
   if(!currentWeather){
     return (
-      <div className='container'>
+      <Container fluid>
         <div className='row align-items-center justify-content-center '>
           <div className='col-6'>
             <SearchBar className='col-6'
@@ -77,28 +80,28 @@ function App() {
             
           </div>
         </div>
-      </div>
+      </Container>
       
     )
   }
   return (
-    <div className="container m-3 rounded">
+    <Container fluid className=" bg-secondary" style={{height: "100%"}}>
         <SearchBar 
           onSearchChange={handleOnSearchChange}
           />
-      <div className='row align-items-baseline m-3'>
-        <div className="col-6 d-flex flex-column flex-xl-row justify-content-xl-around ">
+      <Row xs={1} sm={1} md={2}   className=' align-items-baseline justify-content-center'>
+        <Col md={4} className=" ">
           <CurrentWeather 
           currentWeatherData = {currentWeather}
           />
-        </div>
-        <div className='col-6'>
+        </Col>
+        <Col md={5} lg={4}>
           <ForecastWeather 
             forecastWeatherData = {forecastWeather}
             />
-        </div>
-      </div>
-    </div>
+        </Col>
+      </Row>
+    </Container>
   )
 }
 

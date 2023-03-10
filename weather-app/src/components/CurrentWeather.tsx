@@ -49,20 +49,20 @@ React.useEffect(()=>{
 
 
   return (
-    <section className="container bg-light d-flex flex-column card h-25 rounded">
+    <section className="container bg-light d-flex flex-column card h-25 rounded mb-2">
       <div className="card-body  "> 
       <div className="d-flex flex-column flex-xl-row alert alert-secondary">
         <h2 className="align-self-center card-title">{`${currentWeatherData?.name}, ${currentWeatherData?.sys.country}`}</h2>
       </div>
       <div className="row d-flex flex-column flex-xl-row">
         <div className="col-4 d-flex flex-column flex-lg-row ">
-          <img className="align-self-center " src={currentWeatherData.weather[0].icon? `http://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`: undefined} alt={`${currentWeatherData?.weather[0].main} icon`} />
+          <img className="align-self-center " src={currentWeatherData.weather[0].icon? `https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`: undefined} alt={`${currentWeatherData?.weather[0].main} icon`} />
           <p className="align-self-start font-weight-bold badge badge-info" style={{fontSize: '2rem' }}>{currentWeatherData?.main.temp.toFixed(0)}	&deg;C</p> 
         </div>
         <div className="row-8 d-flex flex-column flex-lg-row font-weight-bold ">
           <p className="align-self-xl-end text-nowrap">Feels like: {Math.round(currentWeatherData?.main.feels_like).toFixed(0)}&deg;C,</p>
-          <p className="align-self-xl-end text-nowrap">&nbsp;{currentWeatherData?.weather[0].description},</p>
-          <p className="align-self-xl-end text-nowrap">&nbsp;{windCondition}.</p>
+          {windCondition? <p className="align-self-xl-end text-nowrap">&nbsp;{currentWeatherData?.weather[0].description},</p> : <p className="align-self-xl-end text-nowrap">&nbsp;{currentWeatherData?.weather[0].description}.</p>}
+          {windCondition && <p className="align-self-xl-end text-nowrap">&nbsp;{windCondition}.</p>}
         </div>
       </div>
       <div className="d-flex flex-column flex-md-row">

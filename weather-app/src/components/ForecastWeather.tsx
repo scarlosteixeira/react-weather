@@ -1,5 +1,9 @@
 import React from 'react'
 import ForecastCard from './ForecastCard'
+import {Card} from 'react-bootstrap'
+import {Row} from 'react-bootstrap'
+import {Col} from 'react-bootstrap'
+import {Stack} from 'react-bootstrap'
 
 const weekDays = [
   'Monday',
@@ -43,11 +47,11 @@ function ForecastWeather({ forecastWeatherData }: any) {
         // console.log(date);
       }
     )
-    console.log(date[0])
+    // console.log(date[0])
     if (!date[0]) {
       date.shift()
     }
-    console.log(date)
+    // console.log(date)
 
     for (let index = 0; index < date.length; index++) {
       const auxday = date[index]
@@ -67,25 +71,24 @@ function ForecastWeather({ forecastWeatherData }: any) {
   // console.log(weatherData);
 
   return (
-    <section className="d-flex flex-column card  ">
-      <div className="card-body ">
-        <h2 className="d-flex flex-column align-self-center card-title alert alert-secondary text-center">{`Forecast`}</h2>
-        <ul className="list-group rounded align-self-center ">
+    <Card className='mb-3'>
+      <Card.Body >
+        <Card.Title as="h2" className=" alert alert-secondary text-center">Forecast</Card.Title>
+        <Row xs={1} className="rounded">
           {weatherData?.map(
-            (data: { dt: React.Key | null | undefined }, index: number) => {
-              return (
-                <ForecastCard
-                  key={data.dt}
+            (data: { dt: React.Key | null | undefined }, index: number) => (
+              <Col as={Stack} key={data.dt} className="mb-2"> {
+                <ForecastCard 
                   weekDay={forecast6Days[index]}
                   days={forecast6Days.length}
                   dataset={data}
                 />
-              )
-            }
-          )}
-        </ul>
-      </div>
-    </section>
+              }
+            </Col>
+          ))}
+        </Row>
+      </Card.Body>
+    </Card>
   )
 }
 

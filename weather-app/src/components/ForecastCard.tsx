@@ -1,9 +1,11 @@
 import React from 'react'
+import {ListGroup} from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 
 function ForecastCard({ weekDay, dataset}: any) {
   const [tempMin, setTempMin] = React.useState<number>(0)
   const [tempMax, setTempMax] = React.useState<number>(0)
-  console.log(dataset)
+  // console.log(dataset)
 
   function tempMaxMin() {
     const temps = [] as Array<number>
@@ -22,15 +24,15 @@ function ForecastCard({ weekDay, dataset}: any) {
   }, [dataset])
 
   return (
-    <li className='d-flex flex-column flex-lg-row list-group-item border-secondary rounded px-1 py-0 '>
+    <div className='d-flex flex-column flex-lg-row  border border-secondary rounded px-1 py-0 '>
       <div className='d-flex flex-column flex-lg-row align-self-center'>
         <p>{weekDay},</p>
         <p>{dataset[0]?.dt_txt?.slice(5, 10)}</p>
       </div>
       <div className='d-flex align-self-center mx-3 flex-column flex-xl-row'>
         <div className='' >
-          <img
-            src={`http://openweathermap.org/img/wn/${dataset[0]?.weather[0]?.icon}@2x.png`}
+          <Card.Img
+            src={`https://openweathermap.org/img/wn/${dataset[0]?.weather[0]?.icon}@2x.png`}
             alt={dataset[0]?.weather[0]?.main}
             />
         </div>
@@ -43,7 +45,7 @@ function ForecastCard({ weekDay, dataset}: any) {
         <p>{dataset[0]?.weather[0]?.description}</p>
       </div>
       
-    </li>
+    </div>
   )
 }
 
