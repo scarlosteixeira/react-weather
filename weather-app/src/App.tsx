@@ -1,58 +1,90 @@
+// importing dependencies
 import React, { useEffect } from 'react'
 import SearchBar from './components/SearchBar'
 import CurrentWeather from './components/CurrentWeather'
 import { weatherApiKey, weatherApiUrl } from './APIs'
-import {ISearchData, TCurrentWeather, TForecastWeather, TLocation} from './Types'
+import {ISearchData,TCurrentWeather,TForecastWeather,TLocation} from './Types'
 import ForecastWeather from './components/ForecastWeather'
-import  "./style.css"
-import { Container } from 'react-bootstrap'
-import Row from 'react-bootstrap/esm/Row'
-import Col from 'react-bootstrap/esm/Col'
+import './style.css'
+import {Button, Container, Spinner, Row, Col } from 'react-bootstrap'
 
+// App component
 function App() {
-  const [currentWeather, setCurrentWeather] = React.useState<TCurrentWeather>(null)
-  const [forecastWeather, setForecastWeather] = React.useState<TForecastWeather>(null)
-  const [location , setLocation] = React.useState<TLocation>(undefined)
+  // useState to store the current weather data
+  const [currentWeather, setCurrentWeather] =
+    React.useState<TCurrentWeather>(null)
 
-  function getLocation () {
-    if(navigator.geolocation){
-      return navigator.geolocation.getCurrentPosition((position)=>{
-        const latLon = {lat: position.coords.latitude.toFixed(4),
-          lon: position.coords.longitude.toFixed(4)}
-          setLocation(latLon)
-        })
-      }
+  // useState to store the forecast weather data
+  const [forecastWeather, setForecastWeather] =
+    React.useState<TForecastWeather>(null)
+
+  // useState to store the location
+  const [location, setLocation] = React.useState<TLocation>(undefined)
+
+  // function to get the location by using the navigator.geolocation
+  function getLocation() {
+    // if the browser supports the geolocation
+    if (navigator.geolocation) {
+      // get the current position
+      return navigator.geolocation.getCurrentPosition(position => {
+        // setting the latitude and longitude to the state 
+        const latLon = {
+          lat: position.coords.latitude.toFixed(4),
+          lon: position.coords.longitude.toFixed(4)
+        }
+        // setting the location to the state
+        setLocation(latLon)
+      })
+    }
   }
-
-  async function weatherFetch(location: any) {
-    const response = await fetch (`${weatherApiUrl}/weather?lat=${location.lat}&lon=${location.lon}&appid=${weatherApiKey}&units=metric`)
-    const response2 = await fetch (`${weatherApiUrl}/forecast?lat=${location.lat}&lon=${location.lon}&appid=${weatherApiKey}&units=metric`)
+  // function to fetch the weather data
+  async function weatherFetch(location: TLocation) {
+    // fetching the current weather data
+    const response = await fetch(
+      `${weatherApiUrl}/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
+    )
+    // fetching the forecast weather data
+    const response2 = await fetch(
+      `${weatherApiUrl}/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
+    )
+    // converting the response to json
     const currentWeatherData = await response.json()
     const forecastWeatherData = await response2.json()
     // console.log(currentWeatherData);
     // console.log(forecastWeatherData);
-    
-    
+    // setting the current weather data to the state
     setCurrentWeather({ ...currentWeatherData })
+    // setting the forecast weather data to the state
     setForecastWeather({ ...forecastWeatherData })
   }
 
-  React.useEffect(()=>{
+  // useEffect to get the location
+  React.useEffect(() => {
     getLocation()
-  },[])
+  }, [])
 
-  React.useEffect(()=>{
-    if(location){
-    weatherFetch(location)
+  // useEffect to fetch the weather data
+  React.useEffect(() => {
+    // if the location is not undefined
+    if (location) {
+      // call the weatherFetch function
+      weatherFetch(location)
     }
-  },[location])
-    
-  const handleOnSearchChange = (searchData:ISearchData) => {
-    const [lat, lon] = searchData.value.split(" ");
-    
+  }, [location])// if the location changes
+
+  // function to handle the search change
+  const handleOnSearchChange = (searchData: ISearchData) => {
+    // setting lat and lon from the searchData
+    const [lat, lon] = searchData.value.split(' ')
+
+
     async function weatherFetch() {
-      const response = await fetch (`${weatherApiUrl}/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`)
-      const response2 = await fetch (`${weatherApiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`)
+      const response = await fetch(
+        `${weatherApiUrl}/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`
+      )
+      const response2 = await fetch(
+        `${weatherApiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`
+      )
       const currentWeatherData = await response.json()
       const forecastWeatherData = await response2.json()
       setCurrentWeather({ ...currentWeatherData })
@@ -60,45 +92,55 @@ function App() {
     }
     weatherFetch()
   }
-  if(!currentWeather){
+
+  // if the current weather data is null
+  if (!currentWeather) {
     return (
       <Container fluid>
-        <div className='row align-items-center justify-content-center '>
-          <div className='col-6'>
-            <SearchBar className='col-6'
-              onSearchChange={handleOnSearchChange}
-            />
-          </div>
-            <button className='btn btn-light col-2 ' onClick={ getLocation}>
+        <Row className="align-items-center justify-content-center ">
+          <Col xs={6}>
+            <SearchBar onSearchChange={handleOnSearchChange} />
+          </Col>
+          <Button className=" btn-dark col-2 " onClick={getLocation}>
             Get Location
-            </button>
-          <div className='col-4 d-flex'>
-            <span className='font-weight-bold mb-2 align-self-center' style={{fontSize: '1.5rem' }}> Getting Weather </span>
-            <div className="spinner-border m-2" role="status">
-            <span className="sr-only" ></span>
-            </div>
-            
-          </div>
-        </div>
+          </Button>
+          <Col xs={2} className="p-0 ">
+            <p
+              className="font-weight-bold mb-2 ml-2 text-center"
+              style={{ fontSize: '1.5rem' }}
+            >
+              Getting Weather
+            </p>
+          </Col>
+          <Col xs={1} className="p-0 ml-3">
+            <Spinner
+              animation="border"
+              className="m-2"
+              role="status"
+              style={{ width: '2rem', height: '2rem' }}
+            >
+              <span className="sr-only"></span>
+            </Spinner>
+          </Col>
+        </Row>
       </Container>
-      
     )
   }
+  // if the current weather data is not null
   return (
-    <Container fluid className=" bg-secondary" style={{height: "100%"}}>
-        <SearchBar 
-          onSearchChange={handleOnSearchChange}
-          />
-      <Row xs={1} sm={1} md={2}   className=' align-items-baseline justify-content-center'>
+    <Container fluid className=" bg-secondary" style={{ height: '100%' }}>
+      <SearchBar onSearchChange={handleOnSearchChange} />
+      <Row
+        xs={1}
+        sm={1}
+        md={2}
+        className=" align-items-baseline justify-content-center"
+      >
         <Col md={4} className=" ">
-          <CurrentWeather 
-          currentWeatherData = {currentWeather}
-          />
+          <CurrentWeather currentWeatherData={currentWeather} />
         </Col>
         <Col md={5} lg={4}>
-          <ForecastWeather 
-            forecastWeatherData = {forecastWeather}
-            />
+          <ForecastWeather forecastWeatherData={forecastWeather} />
         </Col>
       </Row>
     </Container>

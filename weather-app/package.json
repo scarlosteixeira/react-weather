@@ -13,7 +13,6 @@
     "react": "^18.2.0",
     "react-bootstrap": "^2.6.0",
     "react-dom": "^18.2.0",
-    "react-icons-weather": "^1.0.5",
     "react-router-dom": "^6.4.3",
     "react-select-async-paginate": "^0.7.0"
   },

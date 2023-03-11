@@ -1,15 +1,17 @@
+// importing dependencies
 import { useState } from "react";
 import { AsyncPaginate } from "react-select-async-paginate";
 import { geoApiOptions, geoApiUrl } from "../APIs";
 import { Search, InputValue, ICityData } from "../Types"; 
 
+// SearchBar component
 const SearchBar = ({ onSearchChange }:any) => {
 
   const [search, setSearch] = useState<Search>(null);
 
   const loadOptions = (inputValue:InputValue) => {
     return fetch(
-      `${geoApiUrl}/cities?minPopulation=100000&namePrefix=${inputValue}`,
+      `${geoApiUrl}/cities?minPopulation=10000&namePrefix=${inputValue}`,
       geoApiOptions
     )
       .then((response) => response.json())
@@ -36,7 +38,7 @@ const SearchBar = ({ onSearchChange }:any) => {
 
   return (
     <AsyncPaginate className="mx-auto my-3"
-      placeholder="Search for city"
+      placeholder="Search for a city"
       debounceTimeout={600}
       value={search}
       onChange={handleOnChange}
