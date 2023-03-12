@@ -51,9 +51,9 @@ I started by choosing the API that I wanted to use. I decided to use the **[Open
 
 I made a simple wireframe of the app, using **[wireframepro from mockflow.](https://wireframepro.mockflow.com/)**. The wireframe was based on the layout of the **[open weather app](https://openweathermap.org/)**, but with some modifications to make it simpler, due to the time constraints. The current weather and forecast weather has been chosen as the starting point for the app.
 
-![Wireframe](../../wire-frame.png)
-![Current-Weather](../../current-weather.png) 
-![Forecast-Weather](../../forecast.png)
+![Wireframe](./wire-frame.png)
+![Current-Weather](./current-weather.png) 
+![Forecast-Weather](./forecast.png)
 
 ## Technical Reference
 
