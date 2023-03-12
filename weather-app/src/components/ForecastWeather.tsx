@@ -40,7 +40,7 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
   function formatedForecastData() {
     let count = 0
     let date: Array<string> = []
-    let newArray = []
+    let newArray: Array<any> = []
     // console.log("formatedForecastData",forecastWeatherData)
     
     // getting the dates of the next 5 days
@@ -78,6 +78,7 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
           return data.dt_txt.slice(0, 10) === auxday
         }
       )
+      
       // console.log("setWeatherData",newArray);
       setWeatherData(newArray)
     }
@@ -95,7 +96,7 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
         <Card.Title as="h2" className=" alert alert-secondary text-center">Forecast</Card.Title>
         <Row xs={1} className="rounded">
           {weatherData?.map(
-            (data: { dt:string | null | undefined }, index: number) => (
+            (data: any ,index: number) => (
               <Col as={Stack} key={index} className="mb-2"> {
                 <ForecastCard
                   weekDay={forecast6Days[index]}

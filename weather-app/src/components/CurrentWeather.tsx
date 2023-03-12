@@ -62,7 +62,7 @@ function windDirectionFunc () {
 function dateDtToString(dt:number, timezone:number){
   // console.log(dt)
   // console.log(timezone)
-  console.log(navigator.languages)
+  // console.log(navigator.languages)
   const language = navigator.languages[0]
   const date = new Date((dt + timezone) * 1000).toLocaleString( language, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
   // console.log(date)

@@ -158,7 +158,6 @@ I used some props of the async-paginate component, to get the data from the API 
 * The **debounceTimeout** will set the time for the user to stop typing before the API is called.
 
 ```TypeScript
-
 // SearchBar component
 const SearchBar = ({ onSearchChange }:SearchBarProps ) => {
   // setting the search state
@@ -346,17 +345,159 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
   }, [forecastWeatherData])
 ```
 
+The ForecastCard component, is responsible for displaying the forecast weather data of a specific day. It handles the min and max temperature of the day, the function tempMaxMin will iterates through the dataset prop, getting the highest and the lowest temps on the array and sets the tempMin and tempMax useStates. 
 
+```TypeScript
+  const [tempMin, setTempMin] = React.useState<number>(0)
+  const [tempMax, setTempMax] = React.useState<number>(0)
+  // console.log(dataset)
 
+  // function to get the max and min temperature of the day
+  function tempMaxMin() {
 
+    const temps = [] as Array<number>
+    // iterating through the dataset array, and pushing the temperature of each object to the temps array
+    dataset?.map((data: { main: { temp: number } }) => {
+      return temps.push(data.main.temp)
+    })
+    // console.log(temps)
+    // sorting the temps array, so the lowest temperature will be in the first index, and the highest temperature will be in the last index
+    temps.sort((a, b) => a - b)
+    // console.log(temps)
+    // setting the tempMin and tempMax states
+    setTempMin(Math.round(temps[0]))
+    setTempMax(Math.round(temps[temps.length - 1]))
+  }
 
-
+  // useEffect to call the tempMaxMin function
+  React.useEffect(() => {
+    tempMaxMin()
+  }, [dataset]) // when the dataset changes. 
+```
 ## Challenges
 
+### Typescript
+By far Typescript was the biggest challenge, It was intruduced not that long ago, and I used it just basically. I worked a lot on main types and tryed to use them as much as possible. In some cases I had to use the type any, but I tried to avoid it as much as possible.  
+
+you can see below some of the interfaces and types that I used in the project.
+```TypeScript
+export interface ICurrentWeather {
+  city: string,
+  coord: {lon:number, lat: number},
+  weather: [{id: number, main: string, description: string, icon: string }],
+  base: string,
+  main:{temp: number, feels_like: number, temp_min: number, temp_max: number, pressure: number, humidity: number, sea_level: number, grnd_level: number},
+  visibility: number,
+  wind: {speed: number, deg: number, gust:number},
+  rain: {["1h"]: number, ["3h"]:number},
+  snow: {["1h"]: number, ["3h"]:number},
+  clouds: {all:number},
+  dt: number,
+  sys: {type: number, id: number, country: string, sunrise: number, sunset: number, message: string}
+  timezone:number,
+  id: number,
+  name: string,
+  cod: number
+}
+
+export interface ICityData {
+  name: string
+  countryCode: string
+  latitude: number
+  longitude: number
+}
+
+interface IWindCondition{
+  speedMin: number,
+  speedMax: number,
+  description: string
+}
+
+interface IWindDirection{
+  direction: string,
+  degree:Array<number>
+}
+export type TWindDirection = Array<IWindDirection>
+export type TWindCondition = Array<IWindCondition>
+export type TCurrentWeather = ICurrentWeather | null | undefined
+```
 ## Wins
 
-## Key Learnings/Takeaways
+The way that I handled the wind condition was a win for me, it took me some research to convert the wind speed to a wind condition, but I found the Beaufort scale that fits perfectly on my project. I just had to translate it from the original scale to TypeScript code.
 
+```TypeScript
+export const windSpeed: TWindCondition =[
+  {speedMin: 0,
+    speedMax:0.5,
+  description: 'Calm'
+  },
+  { speedMin:0.6,
+    speedMax: 1.5,
+    description: 'Ligth Air'
+  },
+  { speedMin: 1.6,
+    speedMax: 3.3,
+    description: 'Light breeze'
+  },
+  { speedMin:3.4,
+    speedMax:5.5,
+    description: 'Gentle breeze'
+  },
+  { speedMin:5.6,
+    speedMax:7.9,
+    description: 'Moderate breeze'
+  },
+  { speedMin:8,
+    speedMax:10.7,
+    description: 'Fresh breeze'
+  },
+  { speedMin:10.8,
+    speedMax:13.8,
+    description: 'Strong breeze'
+  },
+  { speedMin:13.9,
+    speedMax:17.1,
+    description: 'Near gale'
+  },
+  { speedMin:17.2,
+    speedMax:20.7,
+    description: 'Fresh gale'
+  },
+  { speedMin:20.8,
+    speedMax:24.4,
+    description: 'Severe gale'
+  },
+  { speedMin:24.5,
+    speedMax:28.4,
+    description: 'Storm'
+  },
+  { speedMin:28.5,
+    speedMax:32.6,
+    description: 'Violent storm'
+  },  
+  { speedMin:32.7,
+    speedMax:100,
+    description: 'Hurricane'
+  },
+]
+```
+
+## Key Learnings/Takeaways
+I got a better understanding of code splitting, and how to use it in a React project, as well as dependency importing. NPM packages are a great way to save time and effort, it also pushed me to read the documentation of the packages that I used, and learn how to use them.
+
+React is a great framework, it is easy to use, and it is very flexible. Render html elements from the code is a great way to integrate TypeScript code that controls the logic of the app, and the html elements that are rendered.
+
+I made a good progress in bootstrap, it still not perfect, but I could implement some responsivity to the app.
+
+I also made a good progress in TypeScript, I still have a lot to learn, but I feel more confortable using it.
 ## Bugs
+No bugs to report.
 
 ## Future Improvements
+Implement more responsivity to the app, and make it more mobile friendly. 
+
+Handle html elements with bootstrap to make screen transitions smoother. 
+
+Implement a layout closer to the original design from openWeather app.
+
+Implement a .env file to keep the API keys safe.

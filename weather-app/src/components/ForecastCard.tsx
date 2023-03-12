@@ -2,26 +2,33 @@ import React from 'react'
 import {ListGroup} from 'react-bootstrap'
 import { Card } from 'react-bootstrap'
 
+
 function ForecastCard({ weekDay, dataset}: any) {
   const [tempMin, setTempMin] = React.useState<number>(0)
   const [tempMax, setTempMax] = React.useState<number>(0)
   // console.log(dataset)
 
+  // function to get the max and min temperature of the day
   function tempMaxMin() {
+
     const temps = [] as Array<number>
+    // iterating through the dataset array, and pushing the temperature of each object to the temps array
     dataset?.map((data: { main: { temp: number } }) => {
       return temps.push(data.main.temp)
     })
     // console.log(temps)
+    // sorting the temps array, so the lowest temperature will be in the first index, and the highest temperature will be in the last index
     temps.sort((a, b) => a - b)
     // console.log(temps)
+    // setting the tempMin and tempMax states
     setTempMin(Math.round(temps[0]))
     setTempMax(Math.round(temps[temps.length - 1]))
   }
 
+  // useEffect to call the tempMaxMin function
   React.useEffect(() => {
     tempMaxMin()
-  }, [dataset])
+  }, [dataset]) // when the dataset changes. 
 
   return (
     <div className='d-flex flex-column flex-lg-row  border border-secondary rounded px-1 py-0 '>

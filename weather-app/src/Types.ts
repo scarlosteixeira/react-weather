@@ -21,7 +21,7 @@ export interface ICurrentWeather {
   cod: number
 }
 
-interface IForecast {
+export interface IForecast {
   "list": [
     {
       dt: number,
