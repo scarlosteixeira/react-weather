@@ -73,7 +73,7 @@ function App() {
   }, [location])// if the location changes
 
   // function to handle the search change
-  const handleOnSearchChange = (searchData: ISearchData) => {
+  function handleOnSearchChange (searchData: ISearchData) {
     // setting lat and lon from the searchData
     const [lat, lon] = searchData.value.split(' ')
 
@@ -130,14 +130,9 @@ function App() {
   return (
     <Container fluid className=" bg-secondary" style={{ height: '100%' }}>
       <SearchBar onSearchChange={handleOnSearchChange} />
-      <Row
-        xs={1}
-        sm={1}
-        md={2}
-        className=" align-items-baseline justify-content-center"
-      >
-        <Col md={4} className=" ">
-          <CurrentWeather currentWeatherData={currentWeather} />
+      <Row xs={1} sm={1} md={2} className=" align-items-baseline justify-content-center">
+        <Col md={4}>
+          <CurrentWeather currentWeatherData={currentWeather}  />
         </Col>
         <Col md={5} lg={4}>
           <ForecastWeather forecastWeatherData={forecastWeather} />

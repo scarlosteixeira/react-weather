@@ -1,10 +1,8 @@
 import React from 'react'
 import ForecastCard from './ForecastCard'
-import {Card} from 'react-bootstrap'
-import {Row} from 'react-bootstrap'
-import {Col} from 'react-bootstrap'
-import {Stack} from 'react-bootstrap'
+import {Card, Row, Col, Stack} from 'react-bootstrap'
 
+// weekDays array
 const weekDays = [
   'Monday',
   'Tuesday',
@@ -14,15 +12,17 @@ const weekDays = [
   'Saturday',
   'Sunday'
 ]
-
+// ForecastWeather component
 function ForecastWeather({ forecastWeatherData }: any) {
-  // console.log(forecastWeatherData);
+  // console.log(forecastWeatherData)
 
+  // setting the weatherData state
   const [weatherData, setWeatherData] = React.useState<any>(null)
-
+  // getting the current day of the week
   const dayOfWeek = new Date().getDay()
   // console.log(dayOfWeek)
 
+  // getting the next 6 days of the week
   const forecast6Days = weekDays
     .slice(dayOfWeek, weekDays.length)
     .concat(weekDays.slice(0, dayOfWeek))
@@ -77,8 +77,8 @@ function ForecastWeather({ forecastWeatherData }: any) {
         <Row xs={1} className="rounded">
           {weatherData?.map(
             (data: { dt: React.Key | null | undefined }, index: number) => (
-              <Col as={Stack} key={data.dt} className="mb-2"> {
-                <ForecastCard 
+              <Col as={Stack} key={index} className="mb-2"> {
+                <ForecastCard
                   weekDay={forecast6Days[index]}
                   days={forecast6Days.length}
                   dataset={data}
