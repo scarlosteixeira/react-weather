@@ -63,9 +63,11 @@ interface IForecast {
       dt_txt: string
     }
   ],
-  timezone: number,
-  sunrise: number,
-  sunset: number
+  city: {
+    timezone: number,
+    sunrise: number,
+    sunset: number
+  }
 }
 
 export interface ICityData {

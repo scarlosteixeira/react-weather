@@ -30,8 +30,8 @@ function ForecastCard({ weekDay, dataset}: any) {
         <p>{dataset[0]?.dt_txt?.slice(5, 10)}</p>
       </div>
       <div className='d-flex align-self-center mx-3 flex-column flex-xl-row'>
-        <div className='' >
-          <Card.Img
+        <div className='m-2' >
+          <Card.Img className='bg-info rounded '
             src={`https://openweathermap.org/img/wn/${dataset[0]?.weather[0]?.icon}@2x.png`}
             alt={dataset[0]?.weather[0]?.main}
             />

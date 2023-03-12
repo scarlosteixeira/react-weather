@@ -59,6 +59,18 @@ function windDirectionFunc () {
   })
 }
 
+function dateDtToString(dt:number, timezone:number){
+  // console.log(dt)
+  // console.log(timezone)
+  console.log(navigator.languages)
+  const language = navigator.languages[0]
+  const date = new Date((dt + timezone) * 1000).toLocaleString( language, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+  // console.log(date)
+  return date
+} 
+
+
+
 // useEffect to set the wind condition and wind direction
 React.useEffect(()=>{
   // calling the wind condition function and storing the result in windDescription variable
@@ -78,10 +90,12 @@ React.useEffect(()=>{
       <Card.Body > 
       <div className="d-flex flex-column flex-xl-row alert alert-secondary">
         <Card.Title as={"h2"} className="align-self-center">{`${currentWeatherData?.name}, ${currentWeatherData?.sys.country}`}</Card.Title>
+        <Card.Subtitle className="align-self-center ml-3">{dateDtToString(currentWeatherData?.dt, currentWeatherData?.timezone)}</Card.Subtitle>
+
       </div>
       <Row className="row d-flex flex-column flex-xl-row">
         <Col className="col-4 d-flex flex-column flex-lg-row ">
-          <img className="align-self-center " src={currentWeatherData.weather[0].icon? `https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`: undefined} alt={`${currentWeatherData?.weather[0].main} icon`} />
+          <img className="align-self-center bg-info rounded mr-1" src={currentWeatherData.weather[0].icon? `https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`: undefined} alt={`${currentWeatherData?.weather[0].main} icon`} />
           <p className="align-self-start font-weight-bold badge badge-info" style={{fontSize: '2rem' }}>{currentWeatherData?.main.temp.toFixed(0)}	&deg;C</p> 
         </Col>
         <div className="row-8 d-flex flex-column flex-lg-row font-weight-bold ">

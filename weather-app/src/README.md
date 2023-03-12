@@ -273,6 +273,81 @@ React.useEffect(()=>{
 },[currentWeatherData]) // update the wind condition and wind direction when the currentWeatherData changes
 ```
 
+The ForecastWeather component, is responsible for displaying the forecast weather data. It also handles the formatting of the forecastWeatherData.list array, to display the data in a more readable way. 
+
+```TypeScript
+// weekDays array
+const weekDays = [
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday'
+]
+// ForecastWeather component
+function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
+
+  // setting the weatherData state
+  const [weatherData, setWeatherData] = React.useState<any>(null)
+  // getting the current day of the week
+  const dayOfWeek = new Date().getDay()
+
+  // getting the next 6 days of the week
+  const forecast6Days = weekDays
+    .slice(dayOfWeek, weekDays.length)
+    .concat(weekDays.slice(0, dayOfWeek))
+    .slice(0, 6)
+
+  // function to format the forecast data, it will take the forecastWeatherData.list array, that is a list of 40 objects, with the weather of next 5 days / 3 hours, and turn it into an array of arrays, where each array represents the weather of a day, and each object inside the array represents the weather of a 3 hours interval.
+  function formatedForecastData() {
+    let count = 0
+    let date: Array<string> = []
+    let newArray = []
+    
+    // getting the dates of the next 5 days
+    forecastWeatherData?.list?.map(
+      (data: { dt_txt: string }, index: number) => {
+        
+        // if the date of the current object is the same as the next object, then it will be added to the date array, if not, then the count will be increased, and the date will be added to the next index of the array.
+        if (
+          data?.dt_txt.slice(0, 10) ===
+          forecastWeatherData?.list[index + 1]?.dt_txt.slice(0, 10)
+        ) {
+          date[count] = data.dt_txt.slice(0, 10)
+          
+        } else {
+          count++
+        }
+      }
+    )
+
+    // if the first element of the date array is empty, then it will be removed
+    if (!date[0]) {
+      date.shift()
+    }
+    
+    // filtering the forecastWeatherData.list array, and adding the objects that have the same date as the date array, to the newArray
+    for (let index = 0; index < date.length; index++) {
+      const auxday = date[index]
+      newArray[index] = forecastWeatherData?.list?.filter(
+        (data: { dt_txt: string}) => {
+          return data.dt_txt.slice(0, 10) === auxday
+        }
+      )
+      setWeatherData(newArray)
+    }
+  }
+
+  // useEffect to call the formatedForecastData function when the forecastWeatherData changes
+  React.useEffect(() => {
+    formatedForecastData()
+  }, [forecastWeatherData])
+```
+
+
+
 
 
 
