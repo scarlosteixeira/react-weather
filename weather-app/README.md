@@ -1,4 +1,4 @@
-# Weather App
+# Project-2 React Weather App
 
 ## Description
 
