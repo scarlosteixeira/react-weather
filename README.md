@@ -49,7 +49,7 @@ Your app must:
 
 ## Planning
 
-During the whiteboard / sign off stage my instructor provided a list of API's that I had to pick one and built my app, using the selected API. I decided to use the **[OpenWeather API](https://openweathermap.org/api)**. I also decided to use the **[GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)**, because it was the one that I found that had the most information about the cities, and it was the one that I could use to get the latitude and longitude of the searched city. I also decided to use the JavaScript **[Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API)**, as it was the one that I found that was easy to use.
+During the whiteboard / sign off stage my instructor provided a list of API's that I had to pick one to build my app, using the selected API. I decided to use the **[OpenWeather API](https://openweathermap.org/api)**. I also decided to use the **[GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)**, because it was the one that I found that had the most information about the cities, and it was the one that I could use to get the latitude and longitude of the searched city. I also decided to use the JavaScript **[Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API)**, as it was the one that I found that was easy to use.
 
 Prior to starting any Front-end coding, I focused on the API response and how I could handle it`s data. I used Insomnia to make a request to the API and from the response I chose the appropriate data. From this point I started the Front-end wireframe.
 ``` JSON
