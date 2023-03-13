@@ -2,7 +2,7 @@
 
 ## Description
 
-React app that consumes the OpenWeather API to get the current weather for a given city. As part of General Assembly's Software Engineering Immersive course.
+This is a React app that consumes the OpenWeather API to get the current weather for a given city. This project was completed as part of General Assembly's Software Engineering Immersive course.
 
 This is a simple weather app that uses the aforementioned API, inbuilt JavaScript Geolocation API to automatically get the latitude and longitude of the users position, as far as the user allow it on browser, and GeoDB Cities API on the search bar that returns city name, country name, latitude and longitude of the searched city.
 
@@ -29,6 +29,8 @@ Solo project, to be completed within 1 week, split as it follows: <br>
 * HTML 5
 * VS Code
 * Google Chrome
+* Netlify
+* Insomnia
 
 ## Brief
 
@@ -47,7 +49,54 @@ Your app must:
 
 ## Planning
 
-I started by choosing the API that I wanted to use. I decided to use the **[OpenWeather API](https://openweathermap.org/api)**, from a list of public API's provided by my instructor. I also decided to use the **[GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)**, because it was the one that I found that had the most information about the cities, and it was the one that I could use to get the latitude and longitude of the searched city. I also decided to use the JavaScript **[Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API)**, as it was the one that I found that was easy to use. 
+During the whiteboard / sign off stage my instructor provided a list of API's that I had to pick one and built my app, using the selected API. I decided to use the **[OpenWeather API](https://openweathermap.org/api)**. I also decided to use the **[GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)**, because it was the one that I found that had the most information about the cities, and it was the one that I could use to get the latitude and longitude of the searched city. I also decided to use the JavaScript **[Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API)**, as it was the one that I found that was easy to use.
+
+Prior to starting any Front-end coding, I focused on the API response and how I could handle it`s data. I used Insomnia to make a request to the API and from the response I chose the appropriate data. From this point I started the Front-end wireframe.
+``` JSON
+{
+	"coord": {
+		"lon": -0.1892,
+		"lat": 51.4108
+	},
+	"weather": [
+		{
+			"id": 804,
+			"main": "Clouds",
+			"description": "overcast clouds",
+			"icon": "04n"
+		}
+	],
+	"base": "stations",
+	"main": {
+		"temp": 272.88,
+		"feels_like": 270.31,
+		"temp_min": 272.14,
+		"temp_max": 273.92,
+		"pressure": 1006,
+		"humidity": 96
+	},
+	"visibility": 1100,
+	"wind": {
+		"speed": 2.06,
+		"deg": 300
+	},
+	"clouds": {
+		"all": 100
+	},
+	"dt": 1670800190,
+	"sys": {
+		"type": 2,
+		"id": 2035324,
+		"country": "GB",
+		"sunrise": 1670745347,
+		"sunset": 1670773940
+	},
+	"timezone": 0,
+	"id": 3333171,
+	"name": "Merton",
+	"cod": 200
+}
+```
 
 I made a simple wireframe of the app, using **[wireframepro from mockflow.](https://wireframepro.mockflow.com/)**. The wireframe was based on the layout of the **[open weather app](https://openweathermap.org/)**, but with some modifications to make it simpler, due to the time constraints. The current weather and forecast weather has been chosen as the starting point for the app.
 
@@ -70,6 +119,8 @@ I made a simple wireframe of the app, using **[wireframepro from mockflow.](http
 **[HTML 5](https://developer.mozilla.org/en-US/docs/Web/HTML)** <br>
 **[VS Code](https://code.visualstudio.com/docs)** <br>
 **[Google Chrome](https://www.google.com/chrome/)** <br>
+**[Netlify](https://docs.netlify.com/)** <br>
+**[Insomnia](https://support.insomnia.rest/article/23-installation)** <br>
 
 ## Build/Code Process
 
@@ -150,7 +201,7 @@ The SearchBar component uses the react-select-async-paginate. The search bar is 
 I used some props of the async-paginate component, to get the data from the API as options and to handle user input from the search bar.
 
 
-* The **loadOptions** will call the API and return an object with two keys: value and label. The label has the name of the city and the country code, this label will be displayed in the search bar. The value has the latitude and longitude of the city, this value will be passed throug the handleOnChange function and assigned to the onSearchChange prop, that is a function for fetching data from OpenWeather API.
+* The **loadOptions** will call the API and return an object with two keys: value and label. The label has the name of the city and the country code, this label will be displayed in the search bar. The value has the latitude and longitude of the city, this value will be passed through the handleOnChange function and assigned to the onSearchChange prop, that is a function for fetching data from OpenWeather API.
 
 * The **onChange** will call the handleOnChange function, this function has been explained above. onChange, basically, monitors the user input for changes.
 
@@ -489,7 +540,7 @@ I got a better understanding of code splitting, and how to use it in a React pro
 
 React is a great framework, it is easy to use, and it is very flexible. Rendering html elements from the code is a great way to integrate TypeScript code that controls the logic of the app, and the html elements that are rendered.
 
-I made good progress in bootstrap, it still not perfect, but I could implement some responsivity to the app.
+I made good progress in bootstrap, it still not perfect, but I could implement some responsiveness to the app.
 
 I also made good progress in TypeScript. I still have a lot to learn, but I feel more comfortable using it.
 
@@ -497,7 +548,7 @@ I also made good progress in TypeScript. I still have a lot to learn, but I feel
 No bugs to report.
 
 ## Future Improvements
-Implement more responsivity to the app, and make it more mobile friendly. 
+Implement more responsiveness to the app, and make it more mobile friendly. 
 
 Handle html elements with bootstrap to make screen transitions smoother. 
 
