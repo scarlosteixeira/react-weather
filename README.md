@@ -158,7 +158,7 @@ The SearchBar component implements react-select-async-paginate to allow users to
 
 To achieve this, some props of the async-paginate component are used to retrieve the city data from the API and handle user input from the search bar:
 
-* The loadOptions prop is called by the `async-paginate` component to fetch data from  the GeoDB Cities API and it returns a Promise that resolves to an array of options. Each option is an object that has two properties: value and label. The label property is the text that is displayed in the search bar for the option, and the value property is the data that is associated with the option. In this case, the value property contains the latitude and longitude of the city. When the user selects an option, the onChange function is called with the selected option's value as its argument. The onChange function then calls the handleOnChange function, which sets the search state to the selected option's value.
+* The loadOptions prop is called by the `async-paginate` component to fetch data from the GeoDB Cities API and it returns a Promise that resolves to an array of options. Each option is an object that has two properties: value and label. The label property is the text that is displayed in the search bar for the option, and the value property is the data that is associated with the option. In this case, the value property contains the latitude and longitude of the city. When the user selects an option, the onChange function is called with the selected option's value as its argument. The onChange function then calls the handleOnChange function, which sets the search state to the selected option's value.
 
 
 * The onChange prop calls the handleOnChange function, which monitors the user input for changes.
@@ -389,7 +389,7 @@ The ForecastCard component displays the forecasted weather data for a specific d
 ## Challenges
 
 ### Typescript
-By far, Typescript was my biggest challenge during the project. It was introduced just two weeks before the project started, and I only had basic knowledge of it. I spent a lot of time working on the main types of the project and tried to use them as much as possible. However, in some cases, I had to resort to using the "any" type, but I made an effort to avoid it whenever possible. With more practice and time, I am confident that my understanding of the language will naturally improve, leading to better code quality.
+By far, TypeScript was my biggest challenge during the project. It was introduced just two weeks before the project started, and I only had basic knowledge of it. I spent a lot of time working on the main types of the project and tried to use them as much as possible. However, in some cases, I had to resort to using the "any" type, but I made an effort to avoid it whenever possible. With more practice and time, I am confident that my understanding of the language will naturally improve, leading to better code quality.
 
 Below, you can find some of the interfaces and types that I used in the project.
 
