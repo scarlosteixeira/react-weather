@@ -8,29 +8,35 @@ This is a simple weather app that uses the aforementioned API, inbuilt JavaScrip
 
 ## Getting Started
 
-The project can be accessed on **[my GitHub profile on React-weater repository.](https://github.com/scarlosteixeira/react-weather)** <br>
+The project can be accessed on **[my GitHub profile on React-weater repository;](https://github.com/scarlosteixeira/react-weather)** The application can be accessed on **[Netlify.](https://weather-app-ga-sei-flex-ldn-25.netlify.app)**
+
 This project is open source and can be downloaded, used and modified by anyone, as far as credit is given.
 
-Solo project, to be completed within 1 week, split as it follows: <br>
+1. Clone the repository using `git clone https://github.com/scarlosteixeira/react-weather.git`
+2. Make sure you have the latest version of Node.js installed.
+3. Install all dependencies using `npm install`
+4. Run the app using `npm run dev`
 
-1. 1 day of whiteboarding and singing off.
-2. 2 days for research, development and coding.
-3. 2 days to get a minimum viable project.
-4. 1 day for polishing, bug fixing.
-5. 1 day to present the completed project.
+## Timeframe & Working Team
 
+This project was completed over the course of 1 week as a solo project for the General Assembly Software Engineering Immersive course.
 
 ## Technologies Used
-* React
-* React DOM
-* react-select-async-paginate
-* TypeScript
-* Bootstrap
-* HTML 5
-* VS Code
-* Google Chrome
-* Netlify
-* Insomnia
+**[OpenWeather Current Weather API](https://openweathermap.org/current)** <br>
+**[OpenWeather 5 day / 3 hour Forecast API](https://openweathermap.org/forecast5)** <br>
+**[GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)** <br>
+**[JavaScript Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API)** <br>
+**[React](https://reactjs.org/)** <br>
+**[React DOM](https://reactjs.org/docs/react-dom.html)** <br>
+**[react-select-async-paginate](https://www.npmjs.com/package/react-select-async-paginate)** <br>
+**[React-bootstrap](https://react-bootstrap.github.io/)** <br>
+**[TypeScript](https://www.typescriptlang.org/)** <br>
+**[Bootstrap](https://getbootstrap.com/)** <br>
+**[HTML 5](https://developer.mozilla.org/en-US/docs/Web/HTML)** <br>
+**[VS Code](https://code.visualstudio.com/docs)** <br>
+**[Google Chrome](https://www.google.com/chrome/)** <br>
+**[Netlify](https://docs.netlify.com/)** <br>
+**[Insomnia](https://support.insomnia.rest/article/23-installation)**
 
 ## Brief
 
@@ -104,45 +110,25 @@ I made a simple wireframe of the app, using **[wireframepro from mockflow.](http
 ![Current-Weather](./current-weather.png) 
 ![Forecast-Weather](./forecast.png)
 
-## Technical Reference
-
-**[OpenWeather Current Weather API](https://openweathermap.org/current)** <br>
-**[OpenWeather 5 day / 3 hour Forecast API](https://openweathermap.org/forecast5)** <br>
-**[GeoDB Cities API](https://rapidapi.com/wirefreethought/api/geodb-cities)** <br>
-**[JavaScript Geolocation API](https://developer.mozilla.org/en-US/docs/Web/API/Geolocation_API)** <br>
-**[React](https://reactjs.org/)** <br>
-**[React DOM](https://reactjs.org/docs/react-dom.html)** <br>
-**[react-select-async-paginate](https://www.npmjs.com/package/react-select-async-paginate)** <br>
-**[react-bootstrap](https://react-bootstrap.github.io/)** <br>
-**[TypeScript](https://www.typescriptlang.org/)** <br>
-**[Bootstrap](https://getbootstrap.com/)** <br>
-**[HTML 5](https://developer.mozilla.org/en-US/docs/Web/HTML)** <br>
-**[VS Code](https://code.visualstudio.com/docs)** <br>
-**[Google Chrome](https://www.google.com/chrome/)** <br>
-**[Netlify](https://docs.netlify.com/)** <br>
-**[Insomnia](https://support.insomnia.rest/article/23-installation)** <br>
 
 ## Build/Code Process
 
-I used React TypeScrip to build the app. It was the first time, in a project, that I used TypeScript, and I found it very useful, as it helped me to avoid some bugs that I would have had if I had used JavaScript. That was also the first time that I split my code into multiple files and folders, and I found it very useful, as it helped me to keep my code organised and easy to read. I also used the **[react-select-async-paginate](https://www.npmjs.com/package/react-select-async-paginate)**, to create the search bar, and the **[react-bootstrap](https://react-bootstrap.github.io/)**, to create the layout of the app.
+I utilised TypeScript to develop my React app and found it very useful as it helped me catch potential bugs that I could have missed with JavaScript. It was also my first time organising my code into multiple files and folders, which made it easier to manage and read. For the search bar, I used the react-select-async-paginate library and react-bootstrap to create the app's layout.
 
-I fetched the data from the OpenWeather API, weatherFetch function, on App.tsx, in this way I could pass the data to the other components as props and manage the state of the app easier. I also used the JavaScript Geolocation API to get the latitude and longitude, getLocation function, in the same way.
 
-To run these functions I used the useEffect hook, in this way I could run the getLocation function only once, when the app was loaded,
-and the weatherFetch function, when the location state was updated.
+To fetch data from the OpenWeather API, I implemented the weatherFetch function in the App.tsx file. By doing so, I could pass the fetched data to other components as props and manage the app's state more efficiently. I also used the JavaScript Geolocation API to obtain the user's latitude and longitude with the getLocation function.
+
+
+I implemented these functions with the useEffect hook, which allowed me to run the getLocation function only once when the app loaded and the weatherFetch function when the location state was updated.
+
+
+Below is a code snippet of the geoLocation function that invokes the geolocation API if it is supported by the user's browser. The coordinates obtained from this API are then utilised as the city's position (latitude and longitude) in the OpenWeather API query.
 
 ```TypeScript
 
-    // useState to store the current weather data
-  const [currentWeather, setCurrentWeather] =
-    React.useState<TCurrentWeather>(null)
-
-  // useState to store the forecast weather data
-  const [forecastWeather, setForecastWeather] =
-    React.useState<TForecastWeather>(null)
-
   // useState to store the location
   const [location, setLocation] = React.useState<TLocation>(undefined)
+
 
     function getLocation() {
     // if the browser supports the geolocation
@@ -160,54 +146,29 @@ and the weatherFetch function, when the location state was updated.
     }
   }
 
-    // function to fetch the weather data
-  async function weatherFetch(location: TLocation) {
-    // fetching the current weather data
-    const response = await fetch(
-      `${weatherApiUrl}/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
-    )
-    // fetching the forecast weather data
-    const response2 = await fetch(
-      `${weatherApiUrl}/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
-    )
-    // converting the response to json
-    const currentWeatherData = await response.json()
-    const forecastWeatherData = await response2.json()
-    // console.log(currentWeatherData);
-    // console.log(forecastWeatherData);
-    // setting the current weather data to the state
-    setCurrentWeather({ ...currentWeatherData })
-    // setting the forecast weather data to the state
-    setForecastWeather({ ...forecastWeatherData })
-  }
 
   // useEffect to get the location
   React.useEffect(() => {
     getLocation()
   }, [])// only once
-
-  // useEffect to fetch the weather data
-  React.useEffect(() => {
-    // if the location is not undefined
-    if (location) {
-      // call the weatherFetch function
-      weatherFetch(location)
-    }
-  }, [location])// if the location changes
 ```
 
-The SearchBar component uses the react-select-async-paginate. The search bar is used to searching for a city fetched from the GeoDB Cities API, and when a city is selected, the latitude and longitude of the city is passed to the OnSearchChange function, and the weatherFetch function is called, to fetch the weather data of the selected city.
-
-I used some props of the async-paginate component, to get the data from the API as options and to handle user input from the search bar.
+The SearchBar component implements react-select-async-paginate to allow users to search for cities fetched from the GeoDB Cities API. When a city is selected, its latitude and longitude are passed to the OnSearchChange function, which in turn triggers the weatherFetch function to fetch weather data for the selected city.
 
 
-* The **loadOptions** will call the API and return an object with two keys: value and label. The label has the name of the city and the country code, this label will be displayed in the search bar. The value has the latitude and longitude of the city, this value will be passed through the handleOnChange function and assigned to the onSearchChange prop, that is a function for fetching data from OpenWeather API.
+To achieve this, some props of the async-paginate component are used to retrieve the city data from the API and handle user input from the search bar:
 
-* The **onChange** will call the handleOnChange function, this function has been explained above. onChange, basically, monitors the user input for changes.
+* The loadOptions prop is called by the `async-paginate` component to fetch data from  the GeoDB Cities API and it returns a Promise that resolves to an array of options. Each option is an object that has two properties: value and label. The label property is the text that is displayed in the search bar for the option, and the value property is the data that is associated with the option. In this case, the value property contains the latitude and longitude of the city. When the user selects an option, the onChange function is called with the selected option's value as its argument. The onChange function then calls the handleOnChange function, which sets the search state to the selected option's value.
 
-* The **value** will be assigned by the search useState, it contains both label and value of the selected city. The search useState is assigned by the handleOnChange function.
 
-* The **debounceTimeout** will set the time for the user to stop typing before the API is called.
+* The onChange prop calls the handleOnChange function, which monitors the user input for changes.
+
+
+* The value prop is assigned by a search useState and contains both the label and value of the selected city. The search useState is assigned by the handleOnChange function.
+
+
+* The debounceTimeout prop sets the time for the user to stop typing before the API is called.
+
 
 ```TypeScript
 // SearchBar component
@@ -253,12 +214,12 @@ const SearchBar = ({ onSearchChange }:SearchBarProps ) => {
   )
 }
 ```
+The CurrentWeather component is responsible for displaying the current weather data and also handles the conversion of wind speed and direction values.
 
-The CurrentWeather component is responsible for displaying the current weather data. It also handles the conversion of the wind speed and direction, from a numeric value, meaningless to the user, to a string , which is easy to understand. 
+To make the wind speed more meaningful to the user, it is converted from metres per second to a description based on the  **[Beaufort scale](https://en.wikipedia.org/wiki/Beaufort_scale)**. This conversion takes into account the wind speed, wind description.
 
-* The wind speed is converted from m/s to a description, this conversion is based on the **[Beaufort scale](https://en.wikipedia.org/wiki/Beaufort_scale)**. That correlates the wind speed, wind description, wave height, sea condition and land condition.
+In addition, the wind direction is converted from azimuth degrees to a cardinal point abbreviation using the **[Wind rose](https://uni.edu/storm/Wind%20Direction%20slide.pdf)**. These conversions make it easier for users to understand the wind condition and direction.
 
-* The wind direction is converted from azimuth degrees to a cardinal point abbreviation, this conversion is based on the **[Wind rose](https://uni.edu/storm/Wind%20Direction%20slide.pdf)**. 
 
 ```TypeScript
 // CurrentWeather component
@@ -267,7 +228,6 @@ function CurrentWeather ({currentWeatherData}:CurrentWeatherProps) {
   const [windCondition, setWindCondition] = React.useState<string>('wind condition')
   // useState to store the wind direction
   const [windDirection, setWindDirection] = React.useState<string>('wind direction')
-// console.log(currentWeatherData);
 
 // function to get the wind condition
 function windConditionFunc () {
@@ -290,9 +250,6 @@ function windDirectionFunc () {
   let filteredWindDirection = windDirect.filter((direction)=>{
     // checking if the current wind direction is between the min and max degree
     if(currentWeatherData?.wind.deg >= direction.degree[0] && currentWeatherData?.wind.deg <= direction.degree[1] ) {
-      // console.log(currentWeatherData.wind.deg)
-      // console.log(direction.degree[0])
-      // console.log(direction.degree[1])
 
       // returning the wind direction
       return direction
@@ -303,7 +260,6 @@ function windDirectionFunc () {
     // returning the wind direction
     return windDirect[15].direction
   }
-    // console.log(filteredWindDirection)
 
   // returning the wind direction
   return filteredWindDirection.map((data)=>{
@@ -324,7 +280,14 @@ React.useEffect(()=>{
 },[currentWeatherData]) // update the wind condition and wind direction when the currentWeatherData changes
 ```
 
-The ForecastWeather component is responsible for displaying the forecast weather data. It also handles the formatting of the forecastWeatherData.list array, to display the data in a more readable way. 
+The ForecastWeather component performs two main tasks in displaying the forecasted weather data for the next six days. Firstly, it formats the data to make it more understandable for the user. Secondly, it displays the forecast data by receiving a prop called forecastWeatherData, which is an object that contains the forecast data returned from the weather API.
+
+To format the data, the component takes the forecastWeatherData.list array, which has the weather data for the next 5 days / 3 hours, and converts it into an array of arrays. Each array represents the weather of a day, and each object inside the array represents the weather of a 3-hour interval.
+
+To achieve this, the component first determines the current day of the week using the Date object and calculates the next 6 days of the week using an array of weekdays. Next, it uses a map function to iterate over the forecastWeatherData.list array and extracts the date of each object. If the date of the current object is the same as the next object, it adds the date to the date array. Otherwise, it increments a count variable and adds the date to the next index of the date array.
+
+Once it has the dates of the next 5 days, the component filters the forecastWeatherData.list array and adds the objects that have the same date as the date array to a new array. This new array is then stored in the weatherData state using the setWeatherData function.
+
 
 ```TypeScript
 // weekDays array
@@ -397,12 +360,11 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
   }, [forecastWeatherData])
 ```
 
-The ForecastCard component is responsible for displaying the forecast weather data of a specific day. It handles the min and max temperature of the day, the function tempMaxMin will iterate through the dataset prop, getting the highest and the lowest temps on the array and sets the tempMin and tempMax useStates.
+The ForecastCard component displays the forecasted weather data for a specific day. It uses the tempMaxMin function to determine the day's minimum and maximum temperatures by iterating through the dataset prop. This prop contains an array of objects that contain temperature data for every 3 hours of the day. The tempMaxMin function extracts the highest and lowest temperatures from the dataset and sets them as useState variables called tempMin and tempMax. Whenever the dataset prop changes, the component calls the tempMaxMin function using the useEffect hook.
 
 ```TypeScript
   const [tempMin, setTempMin] = React.useState<number>(0)
   const [tempMax, setTempMax] = React.useState<number>(0)
-  // console.log(dataset)
 
   // function to get the max and min temperature of the day
   function tempMaxMin() {
@@ -412,10 +374,8 @@ The ForecastCard component is responsible for displaying the forecast weather da
     dataset?.map((data: { main: { temp: number } }) => {
       return temps.push(data.main.temp)
     })
-    // console.log(temps)
     // sorting the temps array, so the lowest temperature will be in the first index, and the highest temperature will be in the last index
     temps.sort((a, b) => a - b)
-    // console.log(temps)
     // setting the tempMin and tempMax states
     setTempMin(Math.round(temps[0]))
     setTempMax(Math.round(temps[temps.length - 1]))
@@ -429,9 +389,10 @@ The ForecastCard component is responsible for displaying the forecast weather da
 ## Challenges
 
 ### Typescript
-By far Typescript was the biggest challenge, It was introduced not that long ago, and I used it just basically. I worked a lot on the main types of my project and tried to use them as much as possible. In some cases I had to use the type any, but I tried to avoid it as much as possible.  
+By far, Typescript was my biggest challenge during the project. It was introduced just two weeks before the project started, and I only had basic knowledge of it. I spent a lot of time working on the main types of the project and tried to use them as much as possible. However, in some cases, I had to resort to using the "any" type, but I made an effort to avoid it whenever possible. With more practice and time, I am confident that my understanding of the language will naturally improve, leading to better code quality.
 
-You can see below some of the interfaces and types that I used in the project.
+Below, you can find some of the interfaces and types that I used in the project.
+
 
 ```TypeScript
 export interface ICurrentWeather {
@@ -476,7 +437,7 @@ export type TCurrentWeather = ICurrentWeather | null | undefined
 ```
 ## Wins
 
-The way that I handled the wind condition was a win for me, it took me some research to convert the wind speed to a wind condition, but I found the Beaufort scale that fits perfectly on my project. I just had to translate it from the original scale to TypeScript code.
+To handle the wind condition in my project, I created an array of objects that contained the minimum and maximum wind speeds for each condition, along with a description. After some research, I found the Beaufort scale to be a good fit for my project. I then translated the original scale into TypeScript code and exported it as a constant called ```windSpeed```, which is accessible to all the program files. In this way I can compare the data from the OpenWeather API and translate the speed in m/s into a readable description.
 
 ```TypeScript
 export const windSpeed: TWindCondition =[
