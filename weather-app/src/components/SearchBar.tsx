@@ -1,46 +1,58 @@
 // importing dependencies
-import { useState } from "react";
-import { AsyncPaginate } from "react-select-async-paginate";
-import { geoApiOptions, geoApiUrl } from "../APIs";
-import { Search, InputValue, ICityData } from "../Types"; 
+import { useEffect, useState } from 'react'
+import { AsyncPaginate } from 'react-select-async-paginate'
+import { ICityData, InputValue, Search } from '../types/Types'
+import { xRapidApiHost, xRapidApiKey, geoApiUrl } from '../config'
+
 
 // SearchBarProps Interface
-interface SearchBarProps  {onSearchChange: Function}
+interface SearchBarProps {
+  onSearchChange: Function
+}
 
 // SearchBar component
-const SearchBar = ({ onSearchChange }:SearchBarProps ) => {
+const SearchBar = ({ onSearchChange }: SearchBarProps) => {
   // setting the search state
   const [search, setSearch] = useState<Search>(null)
 
+  const API_OPTIONS = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": `${xRapidApiKey}`,
+      "X-RapidAPI-Host": `${xRapidApiHost}`,
+    },
+  }
+  
   // function to load the options "loadOptions generates the options from the API"
-  const loadOptions = async (inputValue:InputValue) => {
+  const loadOptions = async (inputValue: InputValue) => {
     // fetching the data from the GeoDB Cities Api
     const response = await fetch(
       `${geoApiUrl}/cities?minPopulation=10000&namePrefix=${inputValue}`,
-      geoApiOptions
-    );
-    const resp = await response.json();
+      API_OPTIONS
+    )
+    const resp = await response.json()
     // console.log(resp)
     return {
       options: resp.data.map((city: ICityData) => {
         return {
           value: `${city.latitude} ${city.longitude}`,
-          label: `${city.name}, ${city.countryCode}`,
-        };
-      }),
-    };
-  };
+          label: `${city.name}, ${city.countryCode}`
+        }
+      })
+    }
+  }
 
-   // function to handle data entered in the search bar
-  const handleOnChange = (searchData:Search) => {
+  // function to handle data entered in the search bar
+  const handleOnChange = (searchData: Search) => {
     // console.log(searchData,'searchData')
-    
+
     setSearch(searchData)
     onSearchChange(searchData)
   }
 
   return (
-    <AsyncPaginate className="mx-auto my-3"
+    <AsyncPaginate
+      className="mx-auto my-3"
       placeholder="Search for a city"
       debounceTimeout={600}
       value={search}
@@ -50,4 +62,4 @@ const SearchBar = ({ onSearchChange }:SearchBarProps ) => {
   )
 }
 
-export default SearchBar;
+export default SearchBar

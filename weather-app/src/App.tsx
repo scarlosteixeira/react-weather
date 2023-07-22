@@ -1,25 +1,31 @@
 // importing dependencies
-import React, { useEffect } from 'react'
-import SearchBar from './components/SearchBar'
+import { useEffect, useState } from 'react'
+import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
 import CurrentWeather from './components/CurrentWeather'
-import { weatherApiKey, weatherApiUrl } from './APIs'
-import {ISearchData,TCurrentWeather,TForecastWeather,TLocation} from './Types'
 import ForecastWeather from './components/ForecastWeather'
+import SearchBar from './components/SearchBar'
 import './style.css'
-import {Button, Container, Spinner, Row, Col } from 'react-bootstrap'
+import {
+  ISearchData,
+  TCurrentWeather,
+  TForecastWeather,
+  TLocation
+} from './types/Types'
+import { weatherApiKey, weatherApiUrl, xRapidApiHost, xRapidApiKey } from './config'
 
 // App component
 function App() {
   // useState to store the current weather data
   const [currentWeather, setCurrentWeather] =
-    React.useState<TCurrentWeather>(null)
+    useState<TCurrentWeather>(null)
 
   // useState to store the forecast weather data
   const [forecastWeather, setForecastWeather] =
-    React.useState<TForecastWeather>(null)
+    useState<TForecastWeather>(null)
 
   // useState to store the location
-  const [location, setLocation] = React.useState<TLocation>(undefined)
+  const [location, setLocation] = useState<TLocation>(undefined)
+
 
   // function to get the location by using the navigator.geolocation
   function getLocation() {
@@ -27,7 +33,7 @@ function App() {
     if (navigator.geolocation) {
       // get the current position
       return navigator.geolocation.getCurrentPosition(position => {
-        // setting the latitude and longitude to the state 
+        // setting the latitude and longitude to the state
         const latLon = {
           lat: position.coords.latitude.toFixed(4),
           lon: position.coords.longitude.toFixed(4)
@@ -38,14 +44,12 @@ function App() {
     }
   }
   // function to fetch the weather data
-  async function weatherFetch(location: TLocation) {
+  async function weatherFetch(location: TLocation){
     // fetching the current weather data
-    const response = await fetch(
-      `${weatherApiUrl}/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
+    const response = await fetch(`${weatherApiUrl}/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
     )
     // fetching the forecast weather data
-    const response2 = await fetch(
-      `${weatherApiUrl}/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
+    const response2 = await fetch(`${weatherApiUrl}/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
     )
     // converting the response to json
     const currentWeatherData = await response.json()
@@ -59,24 +63,23 @@ function App() {
   }
 
   // useEffect to get the location
-  React.useEffect(() => {
+  useEffect(() => {
     getLocation()
   }, [])
 
   // useEffect to fetch the weather data
-  React.useEffect(() => {
+  useEffect(() => {
     // if the location is not undefined
     if (location) {
       // call the weatherFetch function
       weatherFetch(location)
     }
-  }, [location])// if the location changes
+  }, [location]) // if the location changes
 
   // function to handle the search change
-  function handleOnSearchChange (searchData: ISearchData) {
+  function handleOnSearchChange(searchData: ISearchData) {
     // setting lat and lon from the searchData
     const [lat, lon] = searchData.value.split(' ')
-
 
     async function weatherFetch() {
       const response = await fetch(
@@ -130,9 +133,14 @@ function App() {
   return (
     <Container fluid className=" bg-secondary" style={{ height: '100%' }}>
       <SearchBar onSearchChange={handleOnSearchChange} />
-      <Row xs={1} sm={1} md={2} className=" align-items-baseline justify-content-center">
+      <Row
+        xs={1}
+        sm={1}
+        md={2}
+        className=" align-items-baseline justify-content-center"
+      >
         <Col md={4}>
-          <CurrentWeather currentWeatherData={currentWeather}  />
+          <CurrentWeather currentWeatherData={currentWeather} />
         </Col>
         <Col md={5} lg={4}>
           <ForecastWeather forecastWeatherData={forecastWeather} />

@@ -1,8 +1,8 @@
 // importing dependencies
 import React from 'react'
+import { Card, Col, Row, Stack } from 'react-bootstrap'
+import { TForecastWeather } from '../types/Types'
 import ForecastCard from './ForecastCard'
-import {Card, Row, Col, Stack} from 'react-bootstrap'
-import { TForecastWeather } from '../Types'
 
 // forecast weather props interface
 interface ForecastWeatherProps {
@@ -42,12 +42,12 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
     let date: Array<string> = []
     let newArray: Array<any> = []
     // console.log("formatedForecastData",forecastWeatherData)
-    
+
     // getting the dates of the next 5 days
     forecastWeatherData?.list?.map(
       (data: { dt_txt: string }, index: number) => {
         // console.log("data",data);
-        
+
         // if the date of the current object is the same as the next object, then it will be added to the date array, if not, then the count will be increased, and the date will be added to the next index of the array.
         if (
           data?.dt_txt.slice(0, 10) ===
@@ -55,7 +55,6 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
         ) {
           date[count] = data.dt_txt.slice(0, 10)
           // console.log("date",date)
-          
         } else {
           count++
         }
@@ -69,16 +68,16 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
       date.shift()
     }
     // console.log(date)
-    
+
     // filtering the forecastWeatherData.list array, and adding the objects that have the same date as the date array, to the newArray
     for (let index = 0; index < date.length; index++) {
       const auxday = date[index]
       newArray[index] = forecastWeatherData?.list?.filter(
-        (data: { dt_txt: string}) => {
+        (data: { dt_txt: string }) => {
           return data.dt_txt.slice(0, 10) === auxday
         }
       )
-      
+
       // console.log("setWeatherData",newArray);
       setWeatherData(newArray)
     }
@@ -91,13 +90,16 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
   // console.log(weatherData);
 
   return (
-    <Card className='mb-3'>
-      <Card.Body >
-        <Card.Title as="h2" className=" alert alert-secondary text-center">Forecast</Card.Title>
+    <Card className="mb-3">
+      <Card.Body>
+        <Card.Title as="h2" className=" alert alert-secondary text-center">
+          Forecast
+        </Card.Title>
         <Row xs={1} className="rounded">
-          {weatherData?.map(
-            (data: any ,index: number) => (
-              <Col as={Stack} key={index} className="mb-2"> {
+          {weatherData?.map((data: any, index: number) => (
+            <Col as={Stack} key={index} className="mb-2">
+              {' '}
+              {
                 <ForecastCard
                   weekDay={forecast6Days[index]}
                   days={forecast6Days.length}

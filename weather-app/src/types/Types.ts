@@ -10,8 +10,8 @@ export interface ICurrentWeather {
   main:{temp: number, feels_like: number, temp_min: number, temp_max: number, pressure: number, humidity: number, sea_level: number, grnd_level: number},
   visibility: number,
   wind: {speed: number, deg: number, gust:number},
-  rain: {["1h"]: number, ["3h"]:number},
-  snow: {["1h"]: number, ["3h"]:number},
+  rain?: {["1h"]: number, ["3h"]:number},
+  snow?: {["1h"]: number, ["3h"]:number},
   clouds: {all:number},
   dt: number,
   sys: {type: number, id: number, country: string, sunrise: number, sunset: number, message: string}
@@ -51,10 +51,10 @@ export interface IForecast {
       },
       visibility: number,
       pop: number,
-      rain: {
+      rain?: {
         ['3h']: number
       },
-      snow: {
+      snow?: {
         ['3h']: number
       },
       sys: {
