@@ -1,13 +1,13 @@
 // importing dependencies
 import React from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
-import { ICurrentWeather, TWindCondition, TWindDirection } from '../types/Types'
+import * as Types from '../types/Types'
 import { WIND_SPEED } from '../variables/windSpeed'
 import { WIND_DIRECTION } from '../variables/windDirection'
 
 // current weather props interface
 interface CurrentWeatherProps {
-  currentWeatherData: ICurrentWeather
+  currentWeatherData: Types.ICurrentWeather
 }
 
 // CurrentWeather component

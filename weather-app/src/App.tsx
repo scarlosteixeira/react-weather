@@ -5,46 +5,27 @@ import CurrentWeather from './components/CurrentWeather'
 import ForecastWeather from './components/ForecastWeather'
 import SearchBar from './components/SearchBar'
 import './style.css'
-import {
-  ISearchData,
-  TCurrentWeather,
-  TForecastWeather,
-  TLocation
-} from './types/Types'
+import * as Types from './types/Types'
 import { weatherApiKey, weatherApiUrl, xRapidApiHost, xRapidApiKey } from './config'
+import useLocation  from './hooks/useLocation'
+// import { getLocation } from './utils/getLocation'
+
 
 // App component
 function App() {
   // useState to store the current weather data
   const [currentWeather, setCurrentWeather] =
-    useState<TCurrentWeather>(null)
+    useState<Types.TCurrentWeather>(null)
 
   // useState to store the forecast weather data
   const [forecastWeather, setForecastWeather] =
-    useState<TForecastWeather>(null)
+    useState<Types.TForecastWeather>(null)
+    
+  let trigger = false
+  const location = useLocation(trigger)
 
-  // useState to store the location
-  const [location, setLocation] = useState<TLocation>(undefined)
-
-
-  // function to get the location by using the navigator.geolocation
-  function getLocation() {
-    // if the browser supports the geolocation
-    if (navigator.geolocation) {
-      // get the current position
-      return navigator.geolocation.getCurrentPosition(position => {
-        // setting the latitude and longitude to the state
-        const latLon = {
-          lat: position.coords.latitude.toFixed(4),
-          lon: position.coords.longitude.toFixed(4)
-        }
-        // setting the location to the state
-        setLocation(latLon)
-      })
-    }
-  }
   // function to fetch the weather data
-  async function weatherFetch(location: TLocation){
+  async function weatherFetch(location: Types.TLocation){
     // fetching the current weather data
     const response = await fetch(`${weatherApiUrl}/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
     )
@@ -62,10 +43,6 @@ function App() {
     setForecastWeather({ ...forecastWeatherData })
   }
 
-  // useEffect to get the location
-  useEffect(() => {
-    getLocation()
-  }, [])
 
   // useEffect to fetch the weather data
   useEffect(() => {
@@ -77,7 +54,7 @@ function App() {
   }, [location]) // if the location changes
 
   // function to handle the search change
-  function handleOnSearchChange(searchData: ISearchData) {
+  function handleOnSearchChange(searchData: Types.ISearchData) {
     // setting lat and lon from the searchData
     const [lat, lon] = searchData.value.split(' ')
 
@@ -104,7 +81,7 @@ function App() {
           <Col xs={6}>
             <SearchBar onSearchChange={handleOnSearchChange} />
           </Col>
-          <Button className=" btn-dark col-2 " onClick={getLocation}>
+          <Button className=" btn-dark col-2 " onClick={()=>{trigger=!trigger}}>
             Get Location
           </Button>
           <Col xs={2} className="p-0 ">
