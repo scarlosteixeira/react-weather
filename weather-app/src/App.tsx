@@ -6,10 +6,10 @@ import ForecastWeather from './components/ForecastWeather'
 import SearchBar from './components/SearchBar'
 import './style.css'
 import * as Types from './types/Types'
-import { weatherApiKey, weatherApiUrl, xRapidApiHost, xRapidApiKey } from './config'
-import useLocation  from './hooks/useLocation'
-// import { getLocation } from './utils/getLocation'
+import {weatherApiKey,weatherApiUrl,xRapidApiHost,xRapidApiKey} from './config'
+import {usePosition} from './hooks/usePosition'
 
+// import { getLocation } from './utils/getLocation'
 
 // App component
 function App() {
@@ -20,17 +20,18 @@ function App() {
   // useState to store the forecast weather data
   const [forecastWeather, setForecastWeather] =
     useState<Types.TForecastWeather>(null)
-    
-  let trigger = false
-  const location = useLocation(trigger)
+
+  const location = usePosition()
 
   // function to fetch the weather data
-  async function weatherFetch(location: Types.TLocation){
+  async function weatherFetch(location: Types.TLocation) {
     // fetching the current weather data
-    const response = await fetch(`${weatherApiUrl}/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
+    const response = await fetch(
+      `${weatherApiUrl}/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
     )
     // fetching the forecast weather data
-    const response2 = await fetch(`${weatherApiUrl}/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
+    const response2 = await fetch(
+      `${weatherApiUrl}/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
     )
     // converting the response to json
     const currentWeatherData = await response.json()
@@ -42,7 +43,6 @@ function App() {
     // setting the forecast weather data to the state
     setForecastWeather({ ...forecastWeatherData })
   }
-
 
   // useEffect to fetch the weather data
   useEffect(() => {
@@ -81,9 +81,9 @@ function App() {
           <Col xs={6}>
             <SearchBar onSearchChange={handleOnSearchChange} />
           </Col>
-          <Button className=" btn-dark col-2 " onClick={()=>{trigger=!trigger}}>
+          {/* <Button className=" btn-dark col-2 " onClick={() => {handleClick}}>
             Get Location
-          </Button>
+          </Button> */}
           <Col xs={2} className="p-0 ">
             <p
               className="font-weight-bold mb-2 ml-2 text-center"
