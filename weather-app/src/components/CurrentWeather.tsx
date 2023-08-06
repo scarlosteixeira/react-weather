@@ -1,23 +1,22 @@
 // importing dependencies
-import React from 'react'
+import {useState, useEffect} from 'react'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import * as Types from '../types/Types'
 import { WIND_SPEED } from '../variables/windSpeed'
 import { WIND_DIRECTION } from '../variables/windDirection'
+import { AxiosError, AxiosResponse } from 'axios'
 
 // current weather props interface
 interface CurrentWeatherProps {
-  currentWeatherData: Types.ICurrentWeather
+  currentWeatherData: { response: AxiosResponse<any, any> | undefined; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
 }
 
 // CurrentWeather component
-function CurrentWeather({ currentWeatherData }: CurrentWeatherProps) {
+function CurrentWeather({ currentWeatherData }: CurrentWeatherProps)  {
   // useState to store the wind condition
-  const [windCondition, setWindCondition] =
-    React.useState<string>('wind condition')
+  const [windCondition, setWindCondition] = useState<Types.TWindCondition>([])
   // useState to store the wind direction
-  const [windDirection, setWindDirection] =
-    React.useState<string>('wind direction')
+  const [windDirection, setWindDirection] = useState<Types.TWindDirection>([])
   // console.log(currentWeatherData);
 
   // function to get the wind condition
@@ -26,8 +25,8 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps) {
     const filteredwindSpeed = WIND_SPEED.filter(condition => {
       // checking if the current wind speed is between the min and max speed
       if (
-        currentWeatherData?.wind.speed >= condition.speedMin &&
-        currentWeatherData?.wind.speed <= condition.speedMax
+        currentWeatherData?.response?.data.wind.speed >= condition.speedMin &&
+        currentWeatherData?.response?.data.wind.speed <= condition.speedMax
       ) {
         return condition
       }
@@ -44,8 +43,8 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps) {
     let filteredWindDirection = WIND_DIRECTION.filter(direction => {
       // checking if the current wind direction is between the min and max degree
       if (
-        currentWeatherData?.wind.deg >= direction.degree[0] &&
-        currentWeatherData?.wind.deg <= direction.degree[1]
+        currentWeatherData?.response?.data.wind.deg >= direction.degree[0] &&
+        currentWeatherData?.response?.data.wind.deg <= direction.degree[1]
       ) {
         // console.log(currentWeatherData.wind.deg)
         // console.log(direction.degree[0])
@@ -57,8 +56,8 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps) {
     })
     // checking if the wind direction is between 350 and 10 degree, North
     if (
-      currentWeatherData?.wind.deg >= 350 ||
-      currentWeatherData?.wind.deg <= 10
+      currentWeatherData?.response?.data.wind.deg >= 350 ||
+      currentWeatherData?.response?.data.wind.deg <= 10
     ) {
       // returning the wind direction
       return WIND_DIRECTION[15].direction
@@ -87,15 +86,15 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps) {
   }
 
   // useEffect to set the wind condition and wind direction
-  React.useEffect(() => {
+  useEffect(() => {
     // calling the wind condition function and storing the result in windDescription variable
     const windDescription = windConditionFunc()
     // calling the wind direction function and storing the result in windDirection variable
     const windDirection = windDirectionFunc()
     // setting the wind condition
-    setWindCondition(windDescription[0])
+    // setWindCondition(windDescription[0])
     // setting the wind direction
-    setWindDirection(windDirection[0])
+    // setWindDirection(windDirection[0])
   }, [currentWeatherData]) // update the wind condition and wind direction when the currentWeatherData changes
 
   return (
@@ -105,11 +104,11 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps) {
           <Card.Title
             as={'h2'}
             className="align-self-center"
-          >{`${currentWeatherData?.name}, ${currentWeatherData?.sys.country}`}</Card.Title>
+          >{`${currentWeatherData.response?.data.name}, ${currentWeatherData.response?.data.sys.country}`}</Card.Title>
           <Card.Subtitle className="align-self-center ml-3">
             {dateDtToString(
-              currentWeatherData?.dt,
-              currentWeatherData?.timezone
+              currentWeatherData.response?.data.dt,
+              currentWeatherData.response?.data.timezone
             )}
           </Card.Subtitle>
         </div>
@@ -118,37 +117,37 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps) {
             <img
               className="align-self-center bg-info rounded mr-1"
               src={
-                currentWeatherData.weather[0].icon
-                  ? `https://openweathermap.org/img/wn/${currentWeatherData.weather[0].icon}@2x.png`
+                currentWeatherData.response?.data.weather[0].icon
+                  ? `https://openweathermap.org/img/wn/${currentWeatherData.response?.data.weather[0].icon}@2x.png`
                   : undefined
               }
-              alt={`${currentWeatherData?.weather[0].main} icon`}
+              alt={`${currentWeatherData?.response?.data.weather[0].main} icon`}
             />
             <p
               className="align-self-start font-weight-bold badge badge-info"
               style={{ fontSize: '2rem' }}
             >
-              {currentWeatherData?.main.temp.toFixed(0)} &deg;C
+              {currentWeatherData?.response?.data.main.temp.toFixed(0)} &deg;C
             </p>
           </Col>
           <div className="row-8 d-flex flex-column flex-lg-row font-weight-bold ">
             <span className="align-self-xl-end text-nowrap">
               Feels like:{' '}
-              {Math.round(currentWeatherData?.main.feels_like).toFixed(0)}
+              {Math.round(currentWeatherData?.response?.data.main.feels_like).toFixed(0)}
               &deg;C,
             </span>
             {windCondition ? (
               <span className="align-self-xl-end text-nowrap">
-                &nbsp;{currentWeatherData?.weather[0].description},
+                &nbsp;{currentWeatherData?.response?.data.weather[0].description},
               </span>
             ) : (
               <p className="align-self-xl-end ">
-                &nbsp;{currentWeatherData?.weather[0].description}.
+                &nbsp;{currentWeatherData?.response?.data.weather[0].description}.
               </p>
             )}
             {windCondition && (
               <span className="align-self-xl-end text-nowrap">
-                &nbsp;{windCondition}.
+                {/* &nbsp;{windCondition}. */}
               </span>
             )}
           </div>
@@ -157,48 +156,48 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps) {
           <ul className="list-inline align-self-center">
             <li className="list-inline-item border-0 p-1 ">
               <i className="fa-solid fa-location-arrow"></i>
-              <span>{`${currentWeatherData?.wind.speed.toFixed(1)}m/s`}</span>{' '}
-              <span>{windDirection}</span>
+              <span>{`${currentWeatherData?.response?.data.wind.speed.toFixed(1)}m/s`}</span>{' '}
+              {/* <span>{windDirection}</span> */}
             </li>
             <li className="list-inline-item border-0 p-1">
-              Humidity: {currentWeatherData.main.humidity}%
+              Humidity: {currentWeatherData.response?.data.main.humidity}%
             </li>
             <li className="list-inline-item border-0 p-1">
-              Visibility: {(currentWeatherData.visibility / 1000).toFixed(1)}Km
+              Visibility: {(currentWeatherData.response?.data.visibility / 1000).toFixed(1)}Km
             </li>
             <li className="list-inline-item border-0 p-1">
               <i className="fa-solid fa-gauge-high"></i>
-              <span>{currentWeatherData.main.pressure}hPa</span>
+              <span>{currentWeatherData.response?.data.main.pressure}hPa</span>
             </li>
             <li className="list-inline-item border-0 p-1">
               Dew Point:{' '}
               {Math.round(
-                currentWeatherData.main.temp -
-                  (100 - currentWeatherData.main.humidity) / 5
+                currentWeatherData.response?.data.main.temp -
+                  (100 - currentWeatherData.response?.data.main.humidity) / 5
               )}
               &deg;C
             </li>
             {/*dew point formula Td = T - ((100 - RH)/5.) */}
             <li
               className={
-                currentWeatherData.snow
+                currentWeatherData.response?.data.snow
                   ? `list-inline-item border-0 p-1`
                   : `d-none`
               }
             >
-              {currentWeatherData.snow
-                ? `Snow volume: ${currentWeatherData.snow['1h']} mm/h`
+              {currentWeatherData.response?.data.snow
+                ? `Snow volume: ${currentWeatherData.response?.data.snow['1h']} mm/h`
                 : null}
             </li>
             <li
               className={
-                currentWeatherData.rain
+                currentWeatherData.response?.data.rain
                   ? `list-inline-item border-0 p-1`
                   : `d-none`
               }
             >
-              {currentWeatherData.rain
-                ? `Rain volume: ${currentWeatherData.rain['1h']} mm/h`
+              {currentWeatherData.response?.data.rain
+                ? `Rain volume: ${currentWeatherData.response?.data.rain['1h']} mm/h`
                 : null}
             </li>
           </ul>

@@ -1,12 +1,12 @@
 // importing dependencies
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Card, Col, Row, Stack } from 'react-bootstrap'
-import { TForecastWeather } from '../types/Types'
 import ForecastCard from './ForecastCard'
+import { AxiosError, AxiosResponse } from 'axios'
 
 // forecast weather props interface
-interface ForecastWeatherProps {
-  forecastWeatherData: TForecastWeather
+interface forecastWeatherProps {
+  forecastWeatherData: { response: AxiosResponse<any, any> | undefined; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
 }
 
 // weekDays array
@@ -20,11 +20,11 @@ const weekDays = [
   'Sunday'
 ]
 // ForecastWeather component
-function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
+function ForecastWeather({ forecastWeatherData }: forecastWeatherProps) {
   // console.log(forecastWeatherData)
 
   // setting the weatherData state
-  const [weatherData, setWeatherData] = React.useState<any>(null)
+  const [weatherData, setWeatherData] = useState<any>(null)
   // getting the current day of the week
   const dayOfWeek = new Date().getDay()
   // console.log(dayOfWeek)
@@ -44,14 +44,14 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
     // console.log("formatedForecastData",forecastWeatherData)
 
     // getting the dates of the next 5 days
-    forecastWeatherData?.list?.map(
+    forecastWeatherData.response?.data.list.map(
       (data: { dt_txt: string }, index: number) => {
         // console.log("data",data);
 
         // if the date of the current object is the same as the next object, then it will be added to the date array, if not, then the count will be increased, and the date will be added to the next index of the array.
         if (
           data?.dt_txt.slice(0, 10) ===
-          forecastWeatherData?.list[index + 1]?.dt_txt.slice(0, 10)
+          forecastWeatherData.response?.data.list[index + 1]?.dt_txt.slice(0, 10)
         ) {
           date[count] = data.dt_txt.slice(0, 10)
           // console.log("date",date)
@@ -72,7 +72,7 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
     // filtering the forecastWeatherData.list array, and adding the objects that have the same date as the date array, to the newArray
     for (let index = 0; index < date.length; index++) {
       const auxday = date[index]
-      newArray[index] = forecastWeatherData?.list?.filter(
+      newArray[index] = forecastWeatherData?.response?.data.list?.filter(
         (data: { dt_txt: string }) => {
           return data.dt_txt.slice(0, 10) === auxday
         }
@@ -84,7 +84,7 @@ function ForecastWeather({ forecastWeatherData }: ForecastWeatherProps) {
   }
 
   // useEffect to call the formatedForecastData function when the forecastWeatherData changes
-  React.useEffect(() => {
+  useEffect(() => {
     formatedForecastData()
   }, [forecastWeatherData])
   // console.log(weatherData);

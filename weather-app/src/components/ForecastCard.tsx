@@ -1,11 +1,10 @@
-import React from 'react'
-import {ListGroup} from 'react-bootstrap'
+import { useEffect, useState } from 'react'
 import { Card } from 'react-bootstrap'
 
 
 function ForecastCard({ weekDay, dataset}: any) {
-  const [tempMin, setTempMin] = React.useState<number>(0)
-  const [tempMax, setTempMax] = React.useState<number>(0)
+  const [tempMin, setTempMin] = useState<number>(0)
+  const [tempMax, setTempMax] = useState<number>(0)
   // console.log(dataset)
 
   // function to get the max and min temperature of the day
@@ -26,7 +25,7 @@ function ForecastCard({ weekDay, dataset}: any) {
   }
 
   // useEffect to call the tempMaxMin function
-  React.useEffect(() => {
+  useEffect(() => {
     tempMaxMin()
   }, [dataset]) // when the dataset changes. 
 

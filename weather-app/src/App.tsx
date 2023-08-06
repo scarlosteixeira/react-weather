@@ -8,70 +8,28 @@ import './style.css'
 import * as Types from './types/Types'
 import {weatherApiKey,weatherApiUrl,xRapidApiHost,xRapidApiKey} from './config'
 import {usePosition} from './hooks/usePosition'
+import useAxios from './hooks/useAxios'
+import { AxiosHeaders } from 'axios'
 
-// import { getLocation } from './utils/getLocation'
 
 // App component
 function App() {
   // useState to store the current weather data
-  const [currentWeather, setCurrentWeather] =
-    useState<Types.TCurrentWeather>(null)
-
-  // useState to store the forecast weather data
-  const [forecastWeather, setForecastWeather] =
-    useState<Types.TForecastWeather>(null)
 
   const location = usePosition()
 
-  // function to fetch the weather data
-  async function weatherFetch(location: Types.TLocation) {
-    // fetching the current weather data
-    const response = await fetch(
-      `${weatherApiUrl}/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
-    )
-    // fetching the forecast weather data
-    const response2 = await fetch(
-      `${weatherApiUrl}/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`
-    )
-    // converting the response to json
-    const currentWeatherData = await response.json()
-    const forecastWeatherData = await response2.json()
-    // console.log(currentWeatherData);
-    // console.log(forecastWeatherData);
-    // setting the current weather data to the state
-    setCurrentWeather({ ...currentWeatherData })
-    // setting the forecast weather data to the state
-    setForecastWeather({ ...forecastWeatherData })
-  }
+  const currentWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, location)
 
-  // useEffect to fetch the weather data
-  useEffect(() => {
-    // if the location is not undefined
-    if (location) {
-      // call the weatherFetch function
-      weatherFetch(location)
-    }
-  }, [location]) // if the location changes
+  const forecastWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, location)
 
   // function to handle the search change
   function handleOnSearchChange(searchData: Types.ISearchData) {
     // setting lat and lon from the searchData
     const [lat, lon] = searchData.value.split(' ')
-
-    async function weatherFetch() {
-      const response = await fetch(
-        `${weatherApiUrl}/weather?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`
-      )
-      const response2 = await fetch(
-        `${weatherApiUrl}/forecast?lat=${lat}&lon=${lon}&appid=${weatherApiKey}&units=metric`
-      )
-      const currentWeatherData = await response.json()
-      const forecastWeatherData = await response2.json()
-      setCurrentWeather({ ...currentWeatherData })
-      setForecastWeather({ ...forecastWeatherData })
-    }
-    weatherFetch()
+    
+    
   }
+  
 
   // if the current weather data is null
   if (!currentWeather) {

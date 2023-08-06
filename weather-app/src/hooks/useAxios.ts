@@ -4,7 +4,7 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 // axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 //If you are using different URLs, consider removing this line and adding a baseURL in the Axios Config parameter. 
 
-const useAxios = (axiosParams: AxiosRequestConfig) => {
+const useAxios = (axiosParams: AxiosRequestConfig, trigger: any) => {
   const [response, setResponse] = useState<AxiosResponse>();
   const [error, setError] = useState<AxiosError>();
   const [loading, setLoading] = useState(axiosParams.method === "GET" || axiosParams.method === "get");
@@ -12,6 +12,7 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
   const fetchData = async (params: AxiosRequestConfig) => {
     try {
       const result = await axios.request(params);
+      console.log(result);      
       setResponse(result);
     } catch(err: any){
       setError(err as AxiosError);
@@ -26,9 +27,9 @@ const useAxios = (axiosParams: AxiosRequestConfig) => {
 
   useEffect(() => {
     if(axiosParams.method === "GET" || axiosParams.method === "get"){
-      fetchData(axiosParams);
+      fetchData(axiosParams);      
     }
-  },[]);
+  },[trigger]);
 
   return { response, error, loading, sendData };
 }

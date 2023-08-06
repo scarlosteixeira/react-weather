@@ -15,3 +15,5 @@ export enum standard{
   windSpeed = "m/s",
   windGust = windSpeed
 }
+
+location = {lat: lat, lon: lon}

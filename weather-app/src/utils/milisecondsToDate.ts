@@ -3,5 +3,3 @@ export default function milisecondsToDate (dt:number, location:string | undefine
   const date = new Date((dt*1000)).toLocaleDateString(location)
   return [date, time]
 }
-
-console.log(milisecondsToDate(1689454498))
