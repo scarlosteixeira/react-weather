@@ -16,18 +16,16 @@ import { AxiosHeaders } from 'axios'
 function App() {
   // useState to store the current weather data
 
-  const location = usePosition()
+  let location = usePosition()
 
-  const currentWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, location)
+  const currentWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location])
 
-  const forecastWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, location)
+  const forecastWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location])
 
   // function to handle the search change
   function handleOnSearchChange(searchData: Types.ISearchData) {
     // setting lat and lon from the searchData
-    const [lat, lon] = searchData.value.split(' ')
-    
-    
+    const [lat, lon] = searchData.value.split(' ');
   }
   
 
