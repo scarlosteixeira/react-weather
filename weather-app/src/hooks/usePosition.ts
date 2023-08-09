@@ -10,6 +10,11 @@ export function usePosition(trigger?:Types.TLocation): Types.TLocation {
       setPosition(undefined)
       console.log('Geolocation is not available.')
     }
+    if (trigger){
+      setPosition({lat: trigger.lat, lon: trigger.lon})
+      console.log("usePosition Trigger");
+      
+    }
     geo.getCurrentPosition(({ coords }) => {
       setPosition({
         lat: coords.latitude.toFixed(4),
@@ -17,9 +22,6 @@ export function usePosition(trigger?:Types.TLocation): Types.TLocation {
       })
       return position
     })
-    if (trigger){
-      setPosition({lat: trigger.lat, lon: trigger.lon})
-    }
     
   }, [trigger])
   return position

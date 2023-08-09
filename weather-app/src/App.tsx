@@ -26,6 +26,7 @@ function App() {
   function handleOnSearchChange(searchData: Types.ISearchData) {
     // setting lat and lon from the searchData
     const [lat, lon] = searchData.value.split(' ');
+    location = usePosition({lat: lat, lon: lon})
   }
   
 
