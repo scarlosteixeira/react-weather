@@ -16,8 +16,10 @@ import { AxiosHeaders } from 'axios'
 function App() {
   // useState to store the current weather data
 
-  let location = usePosition()
+  const [searchLocation, setSearchLocation] = useState<Types.TLocation>(undefined)
 
+  let location = usePosition(searchLocation)
+  
   const currentWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location])
 
   const forecastWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location])
@@ -26,7 +28,7 @@ function App() {
   function handleOnSearchChange(searchData: Types.ISearchData) {
     // setting lat and lon from the searchData
     const [lat, lon] = searchData.value.split(' ');
-    location = usePosition({lat: lat, lon: lon})
+    setSearchLocation({lat: lat, lon:lon})
   }
   
 
@@ -38,9 +40,6 @@ function App() {
           <Col xs={6}>
             <SearchBar onSearchChange={handleOnSearchChange} />
           </Col>
-          {/* <Button className=" btn-dark col-2 " onClick={() => {handleClick}}>
-            Get Location
-          </Button> */}
           <Col xs={2} className="p-0 ">
             <p
               className="font-weight-bold mb-2 ml-2 text-center"
@@ -85,3 +84,5 @@ function App() {
 }
 
 export default App
+
+

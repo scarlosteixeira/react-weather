@@ -13,7 +13,7 @@ export function usePosition(trigger?:Types.TLocation): Types.TLocation {
     if (trigger){
       setPosition({lat: trigger.lat, lon: trigger.lon})
       console.log("usePosition Trigger");
-      
+      return  
     }
     geo.getCurrentPosition(({ coords }) => {
       setPosition({
