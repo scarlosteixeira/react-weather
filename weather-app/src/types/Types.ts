@@ -101,5 +101,5 @@ export type TWindCondition = Array<IWindCondition>
 export type TLocation = ILocation | undefined
 export type InputValue = string | null
 export type Search = ISearchData | null
-export type TCurrentWeather = ICurrentWeather | null | undefined
-export type TForecastWeather = IForecast | null | undefined
+export type TCurrentWeather = ICurrentWeather | undefined
+export type TForecastWeather = IForecast | undefined

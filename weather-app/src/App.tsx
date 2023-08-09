@@ -1,15 +1,15 @@
 // importing dependencies
-import { useEffect, useState } from 'react'
-import { Button, Col, Container, Row, Spinner } from 'react-bootstrap'
+import { useState } from 'react'
+import { Col, Container, Row, Spinner } from 'react-bootstrap'
 import CurrentWeather from './components/CurrentWeather'
 import ForecastWeather from './components/ForecastWeather'
 import SearchBar from './components/SearchBar'
 import './style.css'
 import * as Types from './types/Types'
-import {weatherApiKey,weatherApiUrl,xRapidApiHost,xRapidApiKey} from './config'
+import {weatherApiKey,weatherApiUrl} from './config'
 import {usePosition} from './hooks/usePosition'
 import useAxios from './hooks/useAxios'
-import { AxiosHeaders } from 'axios'
+import { AxiosError, AxiosResponse } from 'axios'
 
 
 // App component
@@ -20,9 +20,9 @@ function App() {
 
   let location = usePosition(searchLocation)
   
-  const currentWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location])
+  const currentWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location]) as { response: AxiosResponse<Types.ICurrentWeather, any>; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
 
-  const forecastWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location])
+  const forecastWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location]) as { response: AxiosResponse<Types.IForecast, any>; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
 
   // function to handle the search change
   function handleOnSearchChange(searchData: Types.ISearchData) {
@@ -32,8 +32,8 @@ function App() {
   }
   
 
-  // if the current weather data is null
-  if (!currentWeather) {
+  // if the current weather response status is not OK.
+  if (currentWeather.response?.status !== 200) {
     return (
       <Container fluid>
         <Row className="align-items-center justify-content-center ">

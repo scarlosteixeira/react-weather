@@ -3,10 +3,11 @@ import { useEffect, useState } from 'react'
 import { Card, Col, Row, Stack } from 'react-bootstrap'
 import ForecastCard from './ForecastCard'
 import { AxiosError, AxiosResponse } from 'axios'
+import * as Types from '../types/Types'
 
 // forecast weather props interface
 interface forecastWeatherProps {
-  forecastWeatherData: { response: AxiosResponse<any, any> | undefined; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
+  forecastWeatherData: { response: AxiosResponse<Types.IForecast, any>; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
 }
 
 // weekDays array

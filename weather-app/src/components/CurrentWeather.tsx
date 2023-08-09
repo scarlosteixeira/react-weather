@@ -8,7 +8,7 @@ import { AxiosError, AxiosResponse } from 'axios'
 
 // current weather props interface
 interface CurrentWeatherProps {
-  currentWeatherData: { response: AxiosResponse<any, any> | undefined; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
+  currentWeatherData: { response: AxiosResponse<Types.ICurrentWeather, any>; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
 }
 
 // CurrentWeather component
@@ -25,8 +25,8 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps)  {
     const filteredwindSpeed = WIND_SPEED.filter(condition => {
       // checking if the current wind speed is between the min and max speed
       if (
-        currentWeatherData?.response?.data.wind.speed >= condition.speedMin &&
-        currentWeatherData?.response?.data.wind.speed <= condition.speedMax
+        currentWeatherData.response.data?.wind.speed >= condition.speedMin &&
+        currentWeatherData.response.data?.wind.speed <= condition.speedMax
       ) {
         return condition
       }
@@ -43,8 +43,8 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps)  {
     let filteredWindDirection = WIND_DIRECTION.filter(direction => {
       // checking if the current wind direction is between the min and max degree
       if (
-        currentWeatherData?.response?.data.wind.deg >= direction.degree[0] &&
-        currentWeatherData?.response?.data.wind.deg <= direction.degree[1]
+        currentWeatherData.response.data?.wind.deg >= direction.degree[0] &&
+        currentWeatherData.response.data?.wind.deg <= direction.degree[1]
       ) {
         // console.log(currentWeatherData.wind.deg)
         // console.log(direction.degree[0])
@@ -104,11 +104,11 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps)  {
           <Card.Title
             as={'h2'}
             className="align-self-center"
-          >{`${currentWeatherData.response?.data.name}, ${currentWeatherData.response?.data.sys.country}`}</Card.Title>
+          >{`${currentWeatherData.response.data.name}, ${currentWeatherData.response.data.sys.country}`}</Card.Title>
           <Card.Subtitle className="align-self-center ml-3">
             {dateDtToString(
-              currentWeatherData.response?.data.dt,
-              currentWeatherData.response?.data.timezone
+              currentWeatherData.response.data.dt,
+              currentWeatherData.response.data.timezone
             )}
           </Card.Subtitle>
         </div>
@@ -117,32 +117,32 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps)  {
             <img
               className="align-self-center bg-info rounded mr-1"
               src={
-                currentWeatherData.response?.data.weather[0].icon
+                currentWeatherData.response.data.weather[0].icon
                   ? `https://openweathermap.org/img/wn/${currentWeatherData.response?.data.weather[0].icon}@2x.png`
                   : undefined
               }
-              alt={`${currentWeatherData?.response?.data.weather[0].main} icon`}
+              alt={`${currentWeatherData.response.data.weather[0].main} icon`}
             />
             <p
               className="align-self-start font-weight-bold badge badge-info"
               style={{ fontSize: '2rem' }}
             >
-              {currentWeatherData?.response?.data.main.temp.toFixed(0)} &deg;C
+              {currentWeatherData.response.data.main.temp.toFixed(0)} &deg;C
             </p>
           </Col>
           <div className="row-8 d-flex flex-column flex-lg-row font-weight-bold ">
             <span className="align-self-xl-end text-nowrap">
               Feels like:{' '}
-              {Math.round(currentWeatherData?.response?.data.main.feels_like).toFixed(0)}
+              {Math.round(currentWeatherData.response.data.main.feels_like).toFixed(0)}
               &deg;C,
             </span>
             {windCondition ? (
               <span className="align-self-xl-end text-nowrap">
-                &nbsp;{currentWeatherData?.response?.data.weather[0].description},
+                &nbsp;{currentWeatherData.response.data.weather[0].description},
               </span>
             ) : (
               <p className="align-self-xl-end ">
-                &nbsp;{currentWeatherData?.response?.data.weather[0].description}.
+                &nbsp;{currentWeatherData.response.data.weather[0].description}.
               </p>
             )}
             {windCondition && (
@@ -156,23 +156,23 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps)  {
           <ul className="list-inline align-self-center">
             <li className="list-inline-item border-0 p-1 ">
               <i className="fa-solid fa-location-arrow"></i>
-              <span>{`${currentWeatherData?.response?.data.wind.speed.toFixed(1)}m/s`}</span>{' '}
+              <span>{`${currentWeatherData.response.data.wind.speed.toFixed(1)}m/s`}</span>{' '}
               {/* <span>{windDirection}</span> */}
             </li>
             <li className="list-inline-item border-0 p-1">
-              Humidity: {currentWeatherData.response?.data.main.humidity}%
+              Humidity: {currentWeatherData.response.data.main.humidity}%
             </li>
             <li className="list-inline-item border-0 p-1">
-              Visibility: {(currentWeatherData.response?.data.visibility / 1000).toFixed(1)}Km
+              Visibility: {(currentWeatherData.response.data.visibility / 1000).toFixed(1)}Km
             </li>
             <li className="list-inline-item border-0 p-1">
               <i className="fa-solid fa-gauge-high"></i>
-              <span>{currentWeatherData.response?.data.main.pressure}hPa</span>
+              <span>{currentWeatherData.response.data.main.pressure}hPa</span>
             </li>
             <li className="list-inline-item border-0 p-1">
               Dew Point:{' '}
               {Math.round(
-                currentWeatherData.response?.data.main.temp -
+                currentWeatherData.response.data.main.temp -
                   (100 - currentWeatherData.response?.data.main.humidity) / 5
               )}
               &deg;C
@@ -180,24 +180,24 @@ function CurrentWeather({ currentWeatherData }: CurrentWeatherProps)  {
             {/*dew point formula Td = T - ((100 - RH)/5.) */}
             <li
               className={
-                currentWeatherData.response?.data.snow
+                currentWeatherData.response.data.snow
                   ? `list-inline-item border-0 p-1`
                   : `d-none`
               }
             >
               {currentWeatherData.response?.data.snow
-                ? `Snow volume: ${currentWeatherData.response?.data.snow['1h']} mm/h`
+                ? `Snow volume: ${currentWeatherData.response.data.snow['1h']} mm/h`
                 : null}
             </li>
             <li
               className={
-                currentWeatherData.response?.data.rain
+                currentWeatherData.response.data.rain
                   ? `list-inline-item border-0 p-1`
                   : `d-none`
               }
             >
               {currentWeatherData.response?.data.rain
-                ? `Rain volume: ${currentWeatherData.response?.data.rain['1h']} mm/h`
+                ? `Rain volume: ${currentWeatherData.response.data.rain['1h']} mm/h`
                 : null}
             </li>
           </ul>
