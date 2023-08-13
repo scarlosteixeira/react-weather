@@ -10,19 +10,20 @@ import {weatherApiKey,weatherApiUrl} from './config'
 import {usePosition} from './hooks/usePosition'
 import useAxios from './hooks/useAxios'
 import { AxiosError, AxiosResponse } from 'axios'
-
+import useNavigatorLanguage from './hooks/useNavigatorLanguage'
 
 // App component
 function App() {
   // useState to store the current weather data
+  const navigatorLanguage = useNavigatorLanguage()
 
   const [searchLocation, setSearchLocation] = useState<Types.TLocation>(undefined)
 
-  let location = usePosition(searchLocation)
+  const location = usePosition(searchLocation)
   
-  const currentWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location]) as { response: AxiosResponse<Types.ICurrentWeather, any>; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
+  const currentWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/weather?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric&lang=${navigatorLanguage}`, method:"GET"}, [location]) as { response: AxiosResponse<Types.ICurrentWeather, any>; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
 
-  const forecastWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric`, method:"GET"}, [location]) as { response: AxiosResponse<Types.IForecast, any>; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
+  const forecastWeather = useAxios({baseURL:`${weatherApiUrl}`, url:`/forecast?lat=${location?.lat}&lon=${location?.lon}&appid=${weatherApiKey}&units=metric&lang=${navigatorLanguage}`, method:"GET"}, [location]) as { response: AxiosResponse<Types.IForecast, any>; error: AxiosError<unknown, any> | undefined; loading: boolean; sendData: () => void; }
 
   // function to handle the search change
   function handleOnSearchChange(searchData: Types.ISearchData) {
